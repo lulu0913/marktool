@@ -92,4 +92,39 @@ router.get('/getUser', (req, res) => {
     })
 });
 
+//  用户组长登录信息验证
+router.post('/findLeader', (req, res) => {
+  var sql_name = $sql.leader.select_name;
+  // var sql_password = $sql.user.select_password;
+  var params = req.body;
+  //console.log(params);
+  if (params.username) {
+      sql_name += " where name ='"+ params.username +"'";
+  }
+  // var keywords = JSON.parse(Object.keys(params)[0]);
+
+  //console.log(sql_name);
+  conn.query(sql_name, params.username, function(err, result) {
+      if (err) {
+          console.log(err);
+      }
+      //console.log(result[0].username);
+      if (!result[0]) {
+          res.send('-1');  //查询不出name，data 返回-1
+      } 
+      else {
+          var resultArray = result[0];
+          console.log(resultArray.password);
+          //console.log(keywords);
+          if(resultArray.password == params.password) {
+              jsonWrite(res, result);
+          } 
+      else {
+          res.send('0') ;  //passwor不匹配
+      }
+      }
+  })
+});
+
+
 module.exports = router;

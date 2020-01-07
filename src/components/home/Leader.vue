@@ -5,11 +5,11 @@
     <div id="midden">
       <div id="peoplechoose">
       <el-menu :default-active="activeIndex" background-color="" mode="horizontal" @select="handleSelect">
-    <el-menu-item @click="goManager" class="el-menu-demo" index="1">管理员</el-menu-item>
-    <el-menu-item @click="goLeader" class="el-menu-demo" index="2">用户组长</el-menu-item>
-    <el-menu-item @click="goUser" class="el-menu-demo" index="3">普通用户</el-menu-item>
+      <el-menu-item @click="goManager" class="el-menu-demo" index="1">管理员</el-menu-item>
+      <el-menu-item @click="goLeader" class="el-menu-demo" index="2">用户组长</el-menu-item>
+      <el-menu-item @click="goUser" class="el-menu-demo" index="3">普通用户</el-menu-item>
       </el-menu>
-      </div>
+    </div>
       <br>
     <input placeholder="请输入用户组长账号" type="text" name="userName" class="inputinfo"/>
     <input placeholder="请输入密码" type="text" name="password" v-model="ruleForm.password" class="inputinfo"/>
@@ -59,7 +59,7 @@ export default {
       localStorage.setItem('ms_username',self.ruleForm.username);
       localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
       console.log(JSON.stringify(self.ruleForm));                        
-      self.$axios.post('/api/user/findUser',self.ruleForm) //前端接口
+      self.$axios.post('/api/user/findLeader',self.ruleForm) //前端接口
       .then((response) => {
           console.log(response);
           if (response.data == -1) {
@@ -70,7 +70,7 @@ export default {
               console.log('密码错误')
               self.errorInfo = true;
               self.errInfo = '密码错误';
-              this.$alert('密码错误', '注意⚠️', {
+              this.$alert('用户组长信息错误，无法登陆', '注意⚠️', {
           confirmButtonText: '确定',})
           }
            else {
