@@ -4,6 +4,7 @@
         <input type="text" name="username" v-model="username" placeholder="用户名" style="width:200px"><br>
         <input type="text" name="password" v-model="password" placeholder="密码" style="width:200px"><br>
         <button @click="addUser">注册</button>
+        <button @click="gologin">注册成功去登陆</button>
     </form>
   </div>
 </template>
@@ -31,6 +32,9 @@ export default {
         console.log(response);
       })
     },
+    gologin(){
+      this.$router.push('/login');
+    }
 
   }
 }

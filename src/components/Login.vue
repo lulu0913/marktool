@@ -1,10 +1,10 @@
 <template>
   <div>
     <form>
-        <input type="text" name="username" v-model="username" placeholder="用户名" style="width:200px"><br>
-        <input type="text" name="password" v-model="password" placeholder="密码" style="width:200px"><br>
-        <button @click="addUser">登录</button>
-        <button>先去注册</button>
+        <input type="text" name="username" v-model="ruleForm.username" placeholder="用户名" style="width:200px"><br>
+        <input type="text" name="password" v-model="ruleForm.password" placeholder="密码" style="width:200px"><br>
+        <button type="primary" @click="submitForm('ruleForm')">登录</button>
+        <button @click="handleCommand()">注册</button> 
     </form>
   </div>
 </template>
@@ -14,23 +14,48 @@ export default {
   name: 'Login',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      username: '',
-      password: '',
-      el:''
+        errorInfo : false,
+        ruleForm: {
+            username: '',
+            password: '',                   
+        },
+        rules: {
+            username: [
+                { required: true, message: '请输入用户名', trigger: 'blur' }
+            ],
+            password: [
+                { required: true, message: '请输入密码', trigger: 'blur' }
+            ],
+        }
     }
   },
   methods: {
-    addUser() {
-      console.log('hello');
-      let username = this.username;
-      let password = this.password;
-      this.$axios.post('/api/user/addUser', {
-        username: username,
-        password: password
-      },{}).then((response) => {
-        console.log(response);
-      })
+    submitForm(ruleForm) {
+        const self = this;
+        console.log(1);
+        localStorage.setItem('ms_username',self.ruleForm.username);
+        localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
+        console.log(JSON.stringify(self.ruleForm));                        
+        self.$axios.post('/api/user/findUser',JSON.stringify(self.ruleForm))
+        .then((response) => {
+            console.log(response);
+            if (response.data == -1) {
+                self.errorInfo = true;
+                self.errInfo = '该用户不存在';
+                console.log('该用户不存在')
+            } else if (response.data == 0) {
+                console.log('密码错误')
+                self.errorInfo = true;
+                self.errInfo = '密码错误';
+            } else if (response.data == 1){
+                this.$router.push('/register');
+            }                          
+        }).then((error) => {
+            console.log(error);
+        })
+    },
+    handleCommand() {
+        this.$router.push('/register');
     },
 
   }
