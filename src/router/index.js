@@ -2,10 +2,16 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
-import Student from '@/components/home/Student'
+import Hello from '@/components/home/Hello'
 import Leader from '@/components/home/Leader'
+import User from '@/components/home/User'
+import Manager from '@/components/home/Manager'
 import vueRsource from 'vue-resource'
 import axios from 'axios'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+ 
+Vue.use(ElementUI);
  
 Vue.use(vueRsource);
 
@@ -27,21 +33,27 @@ export default new Router({
     },
     {
       path:'/',
-      redirect:'/login'
+      redirect:'/Hello'
     },
     {
-      path:'/Leader',
-      redirect:'/Leader'
+      path: '/Manager',
+      name: 'Manager',
+      component:Manager
     },
     {
-      path: '/student',
-      name: 'Student',
-      component:Student 
+      path: '/Hello',
+      name: 'Hello',
+      component:Hello 
     },
     {
       path: '/leader',
       name: 'Leader',
       component:Leader 
     },
+    {
+      path: '/User',
+      name: 'User',
+      component:User
+    }
   ]
 })

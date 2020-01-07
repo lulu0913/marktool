@@ -1,7 +1,7 @@
 <template>
 <body>
   <div id="div_login">
-    <div id="div_title"><h1>用户组长登陆</h1></div>
+    <div id="div_title"><h1>管理员登陆</h1></div>
     <div id="midden">
       <div id="peoplechoose">
       <el-menu :default-active="activeIndex" background-color="" mode="horizontal" @select="handleSelect">
@@ -11,10 +11,9 @@
       </el-menu>
       </div>
       <br><br>
-    <input placeholder="请输入用户组长账号" type="text" name="userName" class="inputinfo"/>
+    <input placeholder="请输入管理员账号" type="text" name="userName" class="inputinfo"/>
     <br>
-    <el-row><el-button @click="goL" value="登录" class="submitbutton_login" type="warning">登陆</el-button></el-row>
-    </div>
+<el-row><el-button @click="goM" value="登录" class="submitbutton_login" type="warning">登陆</el-button></el-row>    </div>
 </div>
 </body>
 </template>
@@ -22,7 +21,7 @@
 <script>
 
 export default {
-  name: 'Leader',
+  name: 'Manager',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -40,8 +39,8 @@ export default {
   	goManager() {
   		this.$router.push('/Manager')
     },
-    goL(){
-      this.$router.push('/L')
+    goM(){
+      this.$router.push('/M')
     }
   }
 }

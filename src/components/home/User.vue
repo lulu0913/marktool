@@ -1,7 +1,7 @@
 <template>
 <body>
   <div id="div_login">
-    <div id="div_title"><h1>用户组长登陆</h1></div>
+    <div id="div_title"><h1>普通用户登陆</h1></div>
     <div id="midden">
       <div id="peoplechoose">
       <el-menu :default-active="activeIndex" background-color="" mode="horizontal" @select="handleSelect">
@@ -10,10 +10,12 @@
     <el-menu-item @click="goUser" class="el-menu-demo" index="3">普通用户</el-menu-item>
       </el-menu>
       </div>
-      <br><br>
-    <input placeholder="请输入用户组长账号" type="text" name="userName" class="inputinfo"/>
     <br>
-    <el-row><el-button @click="goL" value="登录" class="submitbutton_login" type="warning">登陆</el-button></el-row>
+    <input placeholder="请输入普通用户账号" type="text" name="userName" class="inputinfo"/>
+    <br>
+    <input placeholder="请输入密码" type="text" name="passWord" class="inputinfo"/>
+    <el-row><el-button @click="goU" value="登陆" class="submitbutton_login" type="warning">登陆</el-button></el-row>
+    <el-row><el-button @click="goRegister" value="注册" class="submitbutton_registered" type="warning">注册</el-button></el-row>
     </div>
 </div>
 </body>
@@ -22,7 +24,7 @@
 <script>
 
 export default {
-  name: 'Leader',
+  name: 'User',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -38,10 +40,13 @@ export default {
   		this.$router.push('/Leader')
     },
   	goManager() {
-  		this.$router.push('/Manager')
+      this.$router.push('/Manager')
     },
-    goL(){
-      this.$router.push('/L')
+    goRegister() {
+      this.$router.push('/Register')
+    },
+    goU(){
+      this.$router.push('/U')
     }
   }
 }
@@ -51,7 +56,7 @@ export default {
         #div_login{
             width:300px;
             height: 300px;
-            background-color:rgba(58,58,58,0.5);
+            background-color:rgba(97, 89, 89, 0.5);
             float:right;
             margin:50px 50px;
             padding: 0px;
@@ -109,7 +114,18 @@ export default {
             font-family: "华文黑体";
             width: 260px;
             height:35px;
-            margin:40px 20px 0px 20px;
+            margin:20px 20px 0px 20px;
+            background-color:Tan;
+            border-top-left-radius:5px;
+            border-top-right-radius:5px;
+            border-bottom-right-radius:5px;
+            border-bottom-left-radius:5px;
+        }
+        .submitbutton_registered{
+            font-family: "华文黑体";
+            width: 260px;
+            height:35px;
+            margin:20px 20px 20px 20px;
             background-color:Tan;
             border-top-left-radius:5px;
             border-top-right-radius:5px;
@@ -117,3 +133,4 @@ export default {
             border-bottom-left-radius:5px;
         }
 </style>
+

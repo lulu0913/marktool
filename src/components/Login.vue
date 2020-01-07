@@ -35,7 +35,7 @@ export default {
         localStorage.setItem('ms_username',self.ruleForm.username);
         localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
         console.log(JSON.stringify(self.ruleForm));                        
-        self.$axios.post('/api/user/findUser',self.ruleForm)
+        self.$axios.post('/api/user/findUser',self.ruleForm) //前端接口
         .then((response) => {
             console.log(response);
             if (response.data == -1) {
