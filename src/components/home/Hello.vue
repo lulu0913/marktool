@@ -47,94 +47,94 @@ export default {
           confirmButtonText: '确定',
           }
         )},
-        open2() {
-        this.$alert('请先选择普通用户', '注意⚠️', {
-          confirmButtonText: '确定',
-          }
-        )}
+    open2() {
+    this.$alert('请先选择普通用户', '注意⚠️', {
+      confirmButtonText: '确定',
+      }
+    )}
     
   }
 }
 </script>
 
 <style scoped>
-        #div_login{
-            width:300px;
-            height: 300px;
-            background-color:rgba(97, 89, 89, 0.5);
-            float:right;
-            margin:50px 50px;
-            padding: 0px;
-            border-top-left-radius:10px;
-            border-top-right-radius:10px;
-            border-bottom-right-radius:10px;
-            border-bottom-left-radius:10px;
-                   }
-        #div_title{
-            font-family:"华文黑体";
-            width: 100%;
-            height: 60px;
-            background-color:rgba(58,58,58,0.5);
-            text-align: center;
-            line-height:60px;
-            color:blanchedalmond;
-            border-top-left-radius:10px;
-            border-top-right-radius:10px;
-            border-bottom-right-radius:10px;
-            border-bottom-left-radius:10px;
-        }
-        *{
-            margin:0px;
-            padding: 0px;
-        }
-        #midden{
-            font-family: "宋体-简";
-            width:300px;
-            height: 300px;
-            background-color: DarkGray;
-            border-top-left-radius:10px;
-            border-top-right-radius:10px;
-            border-bottom-right-radius:10px;
-            border-bottom-left-radius:10px;
-        }
-        .el-menu-demo{
-            font-family: 宋体;
-            display:inline-block;
-            width:100px;
-            height:50px;
-            font-weight:bold;
-            color:blanchedalmond;
-            background-color:rgba(58,58,58,0.5);
-            text-align:center;
-            padding:4px;
-            text-decoration:none;
-            text-transform:uppercase;
-        }
-        .inputinfo{
-            width: 260px;
-            height:25px;
-            margin:10px 20px 10px 20px;
-        }
-        .submitbutton_login{
-            font-family: "华文黑体";
-            width: 260px;
-            height:35px;
-            margin:20px 20px 0px 20px;
-            background-color:Tan;
-            border-top-left-radius:5px;
-            border-top-right-radius:5px;
-            border-bottom-right-radius:5px;
-            border-bottom-left-radius:5px;
-        }
-        .submitbutton_registered{
-            font-family: "华文黑体";
-            width: 260px;
-            height:35px;
-            margin:20px 20px 20px 20px;
-            background-color:Tan;
-            border-top-left-radius:5px;
-            border-top-right-radius:5px;
-            border-bottom-right-radius:5px;
-            border-bottom-left-radius:5px;
-        }
+  #div_login{
+      width:300px;
+      height: 300px;
+      background-color:rgba(97, 89, 89, 0.5);
+      float:right;
+      margin:50px 50px;
+      padding: 0px;
+      border-top-left-radius:10px;
+      border-top-right-radius:10px;
+      border-bottom-right-radius:10px;
+      border-bottom-left-radius:10px;
+              }
+  #div_title{
+      font-family:"华文黑体";
+      width: 100%;
+      height: 60px;
+      background-color:rgba(58,58,58,0.5);
+      text-align: center;
+      line-height:60px;
+      color:blanchedalmond;
+      border-top-left-radius:10px;
+      border-top-right-radius:10px;
+      border-bottom-right-radius:10px;
+      border-bottom-left-radius:10px;
+  }
+  *{
+      margin:0px;
+      padding: 0px;
+  }
+  #midden{
+      font-family: "宋体-简";
+      width:300px;
+      height: 300px;
+      background-color: DarkGray;
+      border-top-left-radius:10px;
+      border-top-right-radius:10px;
+      border-bottom-right-radius:10px;
+      border-bottom-left-radius:10px;
+  }
+  .el-menu-demo{
+      font-family: 宋体;
+      display:inline-block;
+      width:100px;
+      height:50px;
+      font-weight:bold;
+      color:blanchedalmond;
+      background-color:rgba(58,58,58,0.5);
+      text-align:center;
+      padding:4px;
+      text-decoration:none;
+      text-transform:uppercase;
+  }
+  .inputinfo{
+      width: 260px;
+      height:25px;
+      margin:10px 20px 10px 20px;
+  }
+  .submitbutton_login{
+      font-family: "华文黑体";
+      width: 260px;
+      height:35px;
+      margin:20px 20px 0px 20px;
+      background-color:Tan;
+      border-top-left-radius:5px;
+      border-top-right-radius:5px;
+      border-bottom-right-radius:5px;
+      border-bottom-left-radius:5px;
+  }
+  .submitbutton_registered{
+      font-family: "华文黑体";
+      width: 260px;
+      height:35px;
+      margin:20px 20px 20px 20px;
+      background-color:Tan;
+      border-top-left-radius:5px;
+      border-top-right-radius:5px;
+      border-bottom-right-radius:5px;
+      border-bottom-left-radius:5px;
+  }
 </style>

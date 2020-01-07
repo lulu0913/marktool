@@ -1,6 +1,6 @@
 <template>
 <div>
-<h1>用户组长</h1>
+<h1>{{ username }}组长，您好！</h1>
 <div id="app">
 <el-container style="height: 500px; border: 1px solid #eee">
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -18,7 +18,6 @@
             :on-exceed="handleExceed"
             :file-list="fileList">
             <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload> 
       </el-submenu>  
       <el-submenu index="1">
@@ -60,20 +59,10 @@
           <el-dropdown-item>删除</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <span>组长</span>
+      <span>注销</span>
         
     </el-header>
     
-    <el-main>
-      <el-table :data="tableData">
-        <el-table-column prop="date" label="日期" width="140">
-        </el-table-column>
-        <el-table-column prop="name" label="姓名" width="120">
-        </el-table-column>
-        <el-table-column prop="address" label="地址">
-        </el-table-column>
-      </el-table>
-    </el-main>
   </el-container>
 </el-container>
 </div>
@@ -87,11 +76,39 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      msg1: 'hello my app'
+      msg1: 'hello my app',
+      username:  window.localStorage.getItem('ms_username') ,
+      fileList: [{
+          name: 'food.jpeg', 
+          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        }, 
+        {
+          name: 'food2.jpeg', 
+          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
+
+      
     }
-  }
+  },
+  methods: {
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
+      handleExceed(files, fileList) {
+        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      beforeRemove(file, fileList) {
+        return this.$confirm(`确定移除 ${ file.name }？`);
+      }
+  },
 }
 </script>
+
+
+
+
 
 <style scoped>
     

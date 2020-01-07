@@ -108,7 +108,7 @@ router.post('/findLeader', (req, res) => {
       if (err) {
           console.log(err);
       }
-      //console.log(result[0].username);
+      console.log(result[0].name);
       if (!result[0]) {
           res.send('-1');  //查询不出name，data 返回-1
       } 

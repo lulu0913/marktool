@@ -11,7 +11,7 @@
       </el-menu>
     </div>
       <br>
-    <input placeholder="请输入用户组长账号" type="text" name="userName" class="inputinfo"/>
+    <input placeholder="请输入用户组长账号" type="text" name="username" v-model="ruleForm.username" class="inputinfo"/>
     <input placeholder="请输入密码" type="text" name="password" v-model="ruleForm.password" class="inputinfo"/>
     
     <el-row><el-button @click="submitForm(ruleForm)" value="登录" class="submitbutton_login" type="warning">登陆</el-button></el-row>
@@ -29,7 +29,9 @@ export default {
         errorInfo : false,
         ruleForm: {
             username: '',
-            password: '',                   
+            password: '', 
+            database:'',
+            member:'',                  
         },
         rules: {
             username: [
@@ -56,12 +58,12 @@ export default {
     },
     submitForm(ruleForm) {
       const self = this;
-      localStorage.setItem('ms_username',self.ruleForm.username);
-      localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
+      localStorage.setItem('ms_username',self.ruleForm.username); //ms_username存放当前用户名称
+      localStorage.setItem('ms_user',JSON.stringify(self.ruleForm)); //ms_user 存放用户名称和密码
       console.log(JSON.stringify(self.ruleForm));                        
       self.$axios.post('/api/user/findLeader',self.ruleForm) //前端接口
       .then((response) => {
-          console.log(response);
+          //console.log(response);
           if (response.data == -1) {
               self.errorInfo = true;
               self.errInfo = '该用户不存在';
@@ -74,7 +76,9 @@ export default {
           confirmButtonText: '确定',})
           }
            else {
-              this.$router.push('/L');
+             // 登录成功
+             this.$router.push('/L');
+             console.log(response);
           }                          
       }).then((error) => {
           console.log(error);
