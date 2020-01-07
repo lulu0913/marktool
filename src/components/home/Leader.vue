@@ -10,10 +10,11 @@
     <el-menu-item @click="goUser" class="el-menu-demo" index="3">普通用户</el-menu-item>
       </el-menu>
       </div>
-      <br><br>
+      <br>
     <input placeholder="请输入用户组长账号" type="text" name="userName" class="inputinfo"/>
-    <br>
-    <el-row><el-button @click="goL" value="登录" class="submitbutton_login" type="warning">登陆</el-button></el-row>
+    <input placeholder="请输入密码" type="text" name="password" v-model="ruleForm.password" class="inputinfo"/>
+    
+    <el-row><el-button @click="submitForm(ruleForm)" value="登录" class="submitbutton_login" type="warning">登陆</el-button></el-row>
     </div>
 </div>
 </body>
@@ -23,26 +24,63 @@
 
 export default {
   name: 'Leader',
-  data () {
+   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      msg1: 'hello my app'
+        errorInfo : false,
+        ruleForm: {
+            username: '',
+            password: '',                   
+        },
+        rules: {
+            username: [
+                { required: true, message: '请输入用户名', trigger: 'blur' }
+            ],
+            password: [
+                { required: true, message: '请输入密码', trigger: 'blur' }
+            ],
+        }
     }
   },
-
   methods: {
-  	goUser() {
+    goUser() {
   		this.$router.push('/User')
     },
     goLeader() {
   		this.$router.push('/Leader')
     },
   	goManager() {
-  		this.$router.push('/Manager')
+      this.$router.push('/Manager')
     },
-    goL(){
-      this.$router.push('/L')
+    goRegister() {
+      this.$router.push('/Register')
+    },
+    submitForm(ruleForm) {
+      const self = this;
+      localStorage.setItem('ms_username',self.ruleForm.username);
+      localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
+      console.log(JSON.stringify(self.ruleForm));                        
+      self.$axios.post('/api/user/findUser',self.ruleForm) //前端接口
+      .then((response) => {
+          console.log(response);
+          if (response.data == -1) {
+              self.errorInfo = true;
+              self.errInfo = '该用户不存在';
+              console.log('该用户不存在')
+          } else if (response.data == 0) {
+              console.log('密码错误')
+              self.errorInfo = true;
+              self.errInfo = '密码错误';
+              this.$alert('密码错误', '注意⚠️', {
+          confirmButtonText: '确定',})
+          }
+           else {
+              this.$router.push('/L');
+          }                          
+      }).then((error) => {
+          console.log(error);
+      })
     }
+
   }
 }
 </script>
@@ -109,7 +147,7 @@ export default {
             font-family: "华文黑体";
             width: 260px;
             height:35px;
-            margin:40px 20px 0px 20px;
+            margin:20px 20px 0px 20px;
             background-color:Tan;
             border-top-left-radius:5px;
             border-top-right-radius:5px;

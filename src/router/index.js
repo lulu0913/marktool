@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Register from '@/components/Register'
-import Login from '@/components/Login'
 import Hello from '@/components/home/Hello'
 import Leader from '@/components/home/Leader'
 import User from '@/components/home/User'
 import Manager from '@/components/home/Manager'
 import U from '@/components/mark/U'
+import L from '@/components/mark/L'
 import vueRsource from 'vue-resource'
 import axios from 'axios'
 import ElementUI from 'element-ui'
@@ -26,11 +26,6 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component:Register 
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component:Login 
     },
     {
       path:'/',
@@ -60,6 +55,11 @@ export default new Router({
       path:'/U',
       name:'U',
       component:U,
+    },
+    {
+      path:'/L',
+      name:'L',
+      component:L,
     }
   ]
 })
