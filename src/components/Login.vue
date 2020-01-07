@@ -32,11 +32,10 @@ export default {
   methods: {
     submitForm(ruleForm) {
         const self = this;
-        console.log(1);
         localStorage.setItem('ms_username',self.ruleForm.username);
         localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
         console.log(JSON.stringify(self.ruleForm));                        
-        self.$axios.post('/api/user/findUser',JSON.stringify(self.ruleForm))
+        self.$axios.post('/api/user/findUser',self.ruleForm)
         .then((response) => {
             console.log(response);
             if (response.data == -1) {
@@ -47,7 +46,7 @@ export default {
                 console.log('密码错误')
                 self.errorInfo = true;
                 self.errInfo = '密码错误';
-            } else if (response.data == 1){
+            } else {
                 this.$router.push('/register');
             }                          
         }).then((error) => {

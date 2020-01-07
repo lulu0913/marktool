@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var $sql = require('../sqlMap');
-
+var bodyParser = require('body-parser');//用于req.body获取值的
 
 
 // 连接数据库
@@ -41,27 +41,31 @@ router.post('/findUser', (req, res) => {
     var sql_name = $sql.user.select_name;
     // var sql_password = $sql.user.select_password;
     var params = req.body;
-    console.log(params);
+    //console.log(params);
     if (params.username) {
-        sql_name += "where username ='"+ params.username +"'";
+        sql_name += " where username ='"+ params.username +"'";
     }
+    // var keywords = JSON.parse(Object.keys(params)[0]);
+
+    //console.log(sql_name);
     conn.query(sql_name, params.username, function(err, result) {
         if (err) {
             console.log(err);
         }
-        // console.log(result);
-        if (result[0] === undefined) {
+        //console.log(result[0].username);
+        if (!result[0]) {
             res.send('-1');  //查询不出username，data 返回-1
-        } else {
+        } 
+        else {
             var resultArray = result[0];
             console.log(resultArray.password);
-           // console.log(keywords);
-            if(resultArray.password === params.password) {
+            //console.log(keywords);
+            if(resultArray.password == params.password) {
                 jsonWrite(res, result);
-                res.send('1');
-            } else {
-                res.send('0') ;  //username
-            }
+            } 
+        else {
+            res.send('0') ;  //passwor不匹配
+        }
         }
     })
 });
