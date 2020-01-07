@@ -30,6 +30,18 @@ export default {
     }
   },
   methods: {
+    goUser() {
+  		this.$router.push('/User')
+    },
+    goLeader() {
+  		this.$router.push('/Leader')
+    },
+  	goManager() {
+      this.$router.push('/Manager')
+    },
+    goRegister() {
+      this.$router.push('/Register')
+    },
     submitForm(ruleForm) {
         const self = this;
         localStorage.setItem('ms_username',self.ruleForm.username);

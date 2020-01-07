@@ -31,13 +31,27 @@ export default {
       console.log('hello');
       let username = this.username;
       let password = this.password;
-      this.$axios.post('/api/user/addUser', { //后端接口路由
+
+      if(username == ''){
+          this.$alert('用户名不能为空', '注意⚠️', {
+          confirmButtonText: '确定',}
+        )
+      }
+      else if(password == '')
+      {
+          this.$alert('密码不能为空', '注意⚠️', {
+          confirmButtonText: '确定',}
+        )
+      }
+      else{
+        this.$axios.post('/api/user/addUser', { //后端接口路由
         username: username,
         password: password
       },{}).then((response) => {
         console.log(response);
         this.$router.push('/User');
       })
+      }
     },
     // gologin(){
     //   this.$router.push('/login');

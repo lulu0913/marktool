@@ -11,11 +11,11 @@
       </el-menu>
       </div>
     <br>
-    <input placeholder="请输入普通用户账号" type="text" name="userName" class="inputinfo"/>
+    <input placeholder="请输入普通用户账号" type="text" name="username" v-model="ruleForm.username" class="inputinfo"/>
     <br>
-    <input placeholder="请输入密码" type="text" name="passWord" class="inputinfo"/>
-    <el-row><el-button @click="goU" value="登陆" class="submitbutton_login" type="warning">登陆</el-button></el-row>
-    <el-row><el-button @click="goRegister" value="注册" class="submitbutton_registered" type="warning">注册</el-button></el-row>
+    <input placeholder="请输入密码" type="text" name="password" v-model="ruleForm.password" class="inputinfo"/>
+    <el-row><el-button @click="submitForm('ruleForm')" value="登陆" class="submitbutton_login" type="warning">登陆</el-button></el-row>
+    <el-row><el-button @click="handleCommand()" value="注册" class="submitbutton_registered" type="warning">注册</el-button></el-row>
     </div>
 </div>
 </body>
@@ -27,13 +27,23 @@ export default {
   name: 'User',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      msg1: 'hello my app'
+        errorInfo : false,
+        ruleForm: {
+            username: '',
+            password: '',                   
+        },
+        rules: {
+            username: [
+                { required: true, message: '请输入用户名', trigger: 'blur' }
+            ],
+            password: [
+                { required: true, message: '请输入密码', trigger: 'blur' }
+            ],
+        }
     }
   },
-
   methods: {
-  	goUser() {
+    goUser() {
   		this.$router.push('/User')
     },
     goLeader() {
@@ -45,9 +55,36 @@ export default {
     goRegister() {
       this.$router.push('/Register')
     },
-    goU(){
-      this.$router.push('/U')
-    }
+    submitForm(ruleForm) {
+      const self = this;
+      localStorage.setItem('ms_username',self.ruleForm.username);
+      localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
+      console.log(JSON.stringify(self.ruleForm));                        
+      self.$axios.post('/api/user/findUser',self.ruleForm) //前端接口
+      .then((response) => {
+          console.log(response);
+          if (response.data == -1) {
+              self.errorInfo = true;
+              self.errInfo = '该用户不存在';
+              console.log('该用户不存在')
+          } else if (response.data == 0) {
+              console.log('密码错误')
+              self.errorInfo = true;
+              self.errInfo = '密码错误';
+              this.$alert('密码错误', '注意⚠️', {
+          confirmButtonText: '确定',})
+          }
+           else {
+              this.$router.push('/U');
+          }                          
+      }).then((error) => {
+          console.log(error);
+      })
+    },
+    handleCommand() {
+        this.$router.push('/register');
+    },
+
   }
 }
 </script>

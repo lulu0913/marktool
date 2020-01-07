@@ -6,6 +6,7 @@ import Hello from '@/components/home/Hello'
 import Leader from '@/components/home/Leader'
 import User from '@/components/home/User'
 import Manager from '@/components/home/Manager'
+import U from '@/components/mark/U'
 import vueRsource from 'vue-resource'
 import axios from 'axios'
 import ElementUI from 'element-ui'
@@ -46,7 +47,7 @@ export default new Router({
       component:Hello 
     },
     {
-      path: '/leader',
+      path: '/Leader',
       name: 'Leader',
       component:Leader 
     },
@@ -54,6 +55,11 @@ export default new Router({
       path: '/User',
       name: 'User',
       component:User
+    },
+    {
+      path:'/U',
+      name:'U',
+      component:U,
     }
   ]
 })
