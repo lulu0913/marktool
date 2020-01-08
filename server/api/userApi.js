@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');//用于req.body获取值的
 let formidableMiddleware = require('express-formidable');
 
 
-
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
 
