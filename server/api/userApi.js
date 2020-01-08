@@ -4,6 +4,7 @@ var router = express.Router();
 var mysql = require('mysql');
 var $sql = require('../sqlMap');
 var bodyParser = require('body-parser');//用于req.body获取值的
+var formidable = require('formidable'); //添加到数据库的插件
 
 
 // 连接数据库
@@ -126,5 +127,17 @@ router.post('/findLeader', (req, res) => {
   })
 });
 
+//  上传文件
+router.post("/postFile",function(req,res,next){
+    var form = new formidable.IncomingForm();
+    //设置文件上传存放地址
+    //form.uploadDir = "./public/images";
+    //执行里面的回调函数的时候，表单已经全部接收完毕了。
+    form.parse(req, function(err, fields, files) {
+        console.log("files:",files)  //这里能获取到图片的信息
+        console.log("fields:",fields) //这里能获取到传的参数的信息，如上面的message参数，可以通过fields。message来得到
+        
+    })
+})
 
 module.exports = router;
