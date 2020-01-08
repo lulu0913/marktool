@@ -1,6 +1,6 @@
 <template>
 <div>
-<h1>{{ username }}组长，您好！</h1>
+<h1>{{ form.username }}组长，您好！</h1>
 <div id="app">
 <el-container style="height: 500px; border: 1px solid #eee">
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -70,7 +70,7 @@ export default {
             form:{
                 title: 'title',
                 content: 'content',
-                username:  window.localStorage.getItem('ms_username'),
+                username: localStorage.getItem('ms_username'),
                 file:'',
             }
         }
@@ -84,8 +84,8 @@ export default {
         submitForm(event){
              event.preventDefault();
             let formData = new FormData();
-            formData.append('name', this.file.name);
-            // formData.append('age', this.age);
+            formData.append('filename', this.file.name);
+            formData.append('name', this.form.username);
             formData.append('file', this.file);
             let config = {
               headers: {

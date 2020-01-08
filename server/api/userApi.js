@@ -128,17 +128,31 @@ router.post('/findLeader', (req, res) => {
   })
 });
 
+
 //  上传文件
 router.use(formidableMiddleware({
     encoding: 'utf-8',
     uploadDir: '../src/assets',//保存图片的目录
     multiples: true, // req.files to be arrays of files
     keepExtensions: true//保留后缀
-  }))
+  }));
 
-/* POST home page. */
+/* POST page. */
 router.post('/postFile', function(req, res, next) {
+    var sql_name = $sql.news.add;
+    var params = req.body;
     console.log('文件地址：'+req.files.file.path);
     console.log(req.fields);
-  });
+    console.log(params);
+    console.log(req.files.file.path);
+    conn.query(sql_name, [req.fields.filename,req.files.file.path], function(err, result) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            jsonWrite(res, result); //把文件存储到数据库，存储成功
+        }
+    })
+});
+
 module.exports = router;

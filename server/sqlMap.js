@@ -12,6 +12,12 @@ var sqlMap = {
       select_name: 'SELECT * from leader', 
       update_user: 'UPDATE leader set'
     },
+
+    //对上传的文件进行处理
+    news: {
+      add: 'INSERT INTO news(filename ,filepath) values(?,?)',
+      select_name: 'SELECT * news', 
+    },
   }
   
 module.exports = sqlMap;
