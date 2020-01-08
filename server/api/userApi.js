@@ -4,7 +4,7 @@ var router = express.Router();
 var mysql = require('mysql');
 var $sql = require('../sqlMap');
 var bodyParser = require('body-parser');//用于req.body获取值的
-var formidable = require('formidable'); //添加到数据库的插件
+let formidableMiddleware = require('express-formidable');
 
 
 
@@ -129,8 +129,16 @@ router.post('/findLeader', (req, res) => {
 });
 
 //  上传文件
-router.get('/', function(req, res, next) {
-    res.send('文章列表 响应成功！')
-  });
+router.use(formidableMiddleware({
+    encoding: 'utf-8',
+    uploadDir: '../src/assets',//保存图片的目录
+    multiples: true, // req.files to be arrays of files
+    keepExtensions: true//保留后缀
+  }))
 
+/* POST home page. */
+router.post('/postFile', function(req, res, next) {
+    console.log('文件地址：'+req.files.file.path);
+    console.log(req.fields);
+  });
 module.exports = router;

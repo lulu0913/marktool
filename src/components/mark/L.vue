@@ -6,22 +6,12 @@
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
     <el-menu :default-openeds="['1', '4']">
  
-    <div>
-        <h2>get请求</h2>
-        <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="文章标题">
-                <el-input v-model="form.title"></el-input>
-            </el-form-item>
-            <el-form-item label="文章内容">
-                <el-input type="textarea" v-model="form.content"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="onSubmit">提交</el-button>
-                <el-button>取消</el-button>
-            </el-form-item>
-        </el-form>
-    </div>
-
+        <div>
+           <form>
+                <input type="file" @change="getFile($event)">
+                <button @click="submitForm($event)">提交</button>
+            </form>
+        </div>
       <el-submenu index="1">
         <template slot="title"><i class="el-icon-user"></i>小组成员1</template>
         <el-menu-item-group>
@@ -74,25 +64,36 @@
 <script>
 import axios from 'axios'
 export default {
-    name: 'App',
+    name: 'L',
     data () {
         return {
             form:{
                 title: 'title',
                 content: 'content',
                 username:  window.localStorage.getItem('ms_username'),
+                file:'',
             }
         }
     },
     methods: {
-        onSubmit(){
-            axios.get('http://127.0.0.1:3000/api/user',{
-                params: this.form
-            },{
-                headers:{
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }).then(res=>{
+          // post文件上传
+        getFile(event){
+            this.file = event.target.files[0];
+            console.log(this.file);
+        },
+        submitForm(event){
+             event.preventDefault();
+            let formData = new FormData();
+            formData.append('name', this.file.name);
+            // formData.append('age', this.age);
+            formData.append('file', this.file);
+            let config = {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+            axios.post('http://127.0.0.1:3000/api/user/postFile', formData, config)
+            .then(res=>{
                 console.log(res)
             }).catch(err=>{
                 console.log(err)
