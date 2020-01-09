@@ -3,46 +3,47 @@
 <h1>{{ form.username }}组长，您好！</h1>
 <div id="app">
 <el-container style="height: 500px; border: 1px solid #eee">
+
+  <!-- 侧边栏 -->
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
     <el-menu :default-openeds="['1', '4']">
  
         <div>
-           <form>
-                <input type="file" @change="getFile($event)">
-                <button @click="submitForm($event)">提交</button>
-            </form>
+            <el-submenu index="4">
+                <template slot="title"><i class="el-icon-upload"></i>上传文件</template>
+        
+                <input type="file" @change="getFile($event)" size="mini" icon="el-icon-more">
+                <el-button @click="submitForm($event)" type="text" size="mini" icon="el-icon-upload">确认上传</el-button>
+           
+            </el-submenu> 
         </div>
       <el-submenu index="1">
-        <template slot="title"><i class="el-icon-user"></i>小组成员1</template>
+        <template slot="title"><i class="el-icon-user"></i>新闻小组</template>
         <el-menu-item-group>
-          <template slot="title">标注任务</template>
-          <el-menu-item index="1-1"><i class="el-icon-menu"></i>6月</el-menu-item>
-          <el-menu-item index="1-2"><i class="el-icon-menu"></i>7月</el-menu-item>
-          <el-menu-item index="1-3"><i class="el-icon-menu"></i>8月</el-menu-item>
+          <el-menu-item index="1-1">已标注</el-menu-item>
+          <el-menu-item index="1-2" @click="show">原始数据集</el-menu-item>
         </el-menu-item-group>
         </el-submenu>
 
       <el-submenu index="2">
-        <template slot="title"><i class="el-icon-user"></i>小组成员2</template>
+        <template slot="title"><i class="el-icon-user"></i>机器学习小组</template>
         <el-menu-item-group>
-          <template slot="title">标注任务</template>
-          <el-menu-item index="2-1"><i class="el-icon-menu"></i>9月</el-menu-item>
-          <el-menu-item index="2-2"><i class="el-icon-menu"></i>10月</el-menu-item>
+          <el-menu-item index="2-1">已标注</el-menu-item>
+          <el-menu-item index="2-2">原始数据集</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="3">
-        <template slot="title"><i class="el-icon-user"></i>小组成员3</template>
+        <template slot="title"><i class="el-icon-user"></i>图像识别</template>
         <el-menu-item-group>
-          <template slot="title">标注任务</template>
-          <el-menu-item index="3-1"><i class="el-icon-menu"></i>11月</el-menu-item>
-          <el-menu-item index="3-2"><i class="el-icon-menu"></i>12月</el-menu-item>
+          <el-menu-item index="3-1">已标注</el-menu-item>
+          <el-menu-item index="3-2">原始数据集</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
   </el-aside>
   
   <el-container>
-    <el-header style="text-align: right; font-size: 12px">
+    <!-- <el-header style="text-align: right; font-size: 12px">
       <el-dropdown>
         <i class="el-icon-setting" style="margin-right: 15px"></i>
         <el-dropdown-menu slot="dropdown">
@@ -53,8 +54,19 @@
       </el-dropdown>
       <span>注销</span>
         
-    </el-header>
-    
+    </el-header>  -->
+ 
+  <!-- 展示数据集部分 -->
+    <el-main>
+      <el-table :data="tableData">
+        <el-table-column prop="filename" label="已上传文件">
+        </el-table-column>
+
+      </el-table>
+    </el-main>
+
+
+
   </el-container>
 </el-container>
 </div>
@@ -66,14 +78,20 @@ import axios from 'axios'
 export default {
     name: 'L',
     data () {
-        return {
-            form:{
-                title: 'title',
-                content: 'content',
-                username: localStorage.getItem('ms_username'),
-                file:'',
-            }
-        }
+      const item = {
+        date: '2016-05-02',
+        filename: '王小虎',
+        type: '上海市普陀区金沙江路 1518 弄'
+      };
+      return {
+          form:{
+              title: 'title',
+              content: 'content',
+              username: localStorage.getItem('ms_username'),
+              file:'',
+          },
+          tableData: []
+      }
     },
     methods: {
           // post文件上传
@@ -82,7 +100,7 @@ export default {
             console.log(this.file);
         },
         submitForm(event){
-             event.preventDefault();
+            event.preventDefault();
             let formData = new FormData();
             formData.append('filename', this.file.name);
             formData.append('name', this.form.username);
@@ -98,6 +116,22 @@ export default {
             }).catch(err=>{
                 console.log(err)
             })
+        },
+
+        show(){
+          
+          const self = this;                      
+          self.$axios.post('/api/user/leadershowdata') //前端接口
+          .then((response) => {
+              console.log(response);
+              console.log(response.data.length);
+              console.log(response.data[1].id);
+              this.tableData = response.data;
+              
+          }).then((error) => {
+              console.log(error);
+          })
+          
         }
 }
 }

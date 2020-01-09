@@ -7,6 +7,7 @@ import User from '@/components/home/User'
 import Manager from '@/components/home/Manager'
 import U from '@/components/mark/U'
 import L from '@/components/mark/L'
+import mark from '@/components/mark/mark'
 import vueRsource from 'vue-resource'
 import axios from 'axios'
 import ElementUI from 'element-ui'
@@ -60,6 +61,11 @@ export default new Router({
       path:'/L',
       name:'L',
       component:L,
+    },
+    {
+      path:'/mark',
+      name:'mark',
+      component:mark,
     }
   ]
 })

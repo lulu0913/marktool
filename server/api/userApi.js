@@ -40,6 +40,8 @@ router.post('/addUser', (req, res) => {
 //查找用户接口
 router.post('/findUser', (req, res) => {
     var sql_name = $sql.user.select_name;
+    console.log(sql_name);
+    var cc = sql_name;
     // var sql_password = $sql.user.select_password;
     var params = req.body;
     //console.log(params);
@@ -53,7 +55,7 @@ router.post('/findUser', (req, res) => {
         if (err) {
             console.log(err);
         }
-        //console.log(result[0].username);
+        console.log(result);
         if (!result[0]) {
             res.send('-1');  //查询不出username，data 返回-1
         } 
@@ -150,6 +152,42 @@ router.post('/postFile', function(req, res, next) {
         }
         else {
             jsonWrite(res, result); //把文件存储到数据库，存储成功
+        }
+    })
+});
+
+// 查找news数据集
+router.post('/leadershowdata', (req, res) => {
+    var sql_name = $sql.news.select_name;
+
+    console.log(sql_name);
+    conn.query(sql_name, function(err, result) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(result);
+        if (!result[0]) {
+            res.send('-1');  //查询不出username，data 返回-1
+        } 
+        else {
+            jsonWrite(res, result);
+        }
+    })
+});
+router.post('/usershowdata', (req, res) => {
+    var sql_name = $sql.news.select_name;
+
+    console.log(sql_name);
+    conn.query(sql_name, function(err, result) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(result);
+        if (!result[0]) {
+            res.send('-1');  //查询不出username，data 返回-1
+        } 
+        else {
+            jsonWrite(res, result);
         }
     })
 });

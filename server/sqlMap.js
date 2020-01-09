@@ -16,7 +16,7 @@ var sqlMap = {
     //对上传的文件进行处理
     news: {
       add: 'INSERT INTO news(filename ,filepath) values(?,?)',
-      select_name: 'SELECT * news', 
+      select_name: 'SELECT * from news', 
     },
   }
   
