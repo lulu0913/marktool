@@ -63,12 +63,13 @@ export default {
     //  打开对应的行的文本文件进行编辑
     handleClick(row) {
       console.log(row.filename);
-      var filepath = row.filepath;
+      let userfilepath = row.filepath;
+      console.log(userfilepath);
       localStorage.setItem('name_usermark',row.filename);
       localStorage.setItem('path_usermark',row.filepath);
       // 向后端请求文件内容
       const self = this;                      
-        self.$axios.post('/api/user/userfilecontent') //前端接口
+        self.$axios.post('/api/user/userfilecontent', self.userfilepath) //前端接口
         .then((response) => {
             console.log(response.data);
             localStorage.setItem('userfilecontent',response.data);
