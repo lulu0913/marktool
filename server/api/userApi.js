@@ -5,6 +5,7 @@ var mysql = require('mysql');
 var $sql = require('../sqlMap');
 var bodyParser = require('body-parser');//用于req.body获取值的
 let formidableMiddleware = require('express-formidable');
+var fs = require('fs');
 
 
 // 连接数据库
@@ -174,15 +175,16 @@ router.post('/leadershowdata', (req, res) => {
         }
     })
 });
+
 router.post('/usershowdata', (req, res) => {
     var sql_name = $sql.news.select_name;
 
-    console.log(sql_name);
+    //  console.log(sql_name);
     conn.query(sql_name, function(err, result) {
         if (err) {
             console.log(err);
         }
-        console.log(result);
+        //  console.log(result);
         if (!result[0]) {
             res.send('-1');  //查询不出username，data 返回-1
         } 
@@ -191,5 +193,20 @@ router.post('/usershowdata', (req, res) => {
         }
     })
 });
+
+//  用户请求打开文本的文字内容
+router.post('/userfilecontent', (req, res) => {
+    var params = req.body;
+    console.log(1);
+    console.log(params);
+    fs.readFile('..\\src\\assets\\upload_df98537f4a35412e4d93f41009cbd00d.txt', function (err, data) {
+        if (err) {
+            return console.error(err);
+        }
+        console.log("异步读取: " + data.toString());
+        jsonWrite(res, data.toString());
+     });
+});
+
 
 module.exports = router;
