@@ -25,11 +25,10 @@ var jsonWrite = function(res, ret) {
 //  用户请求打开文本的文字内容
 router.post('/abc', (req, res) => {
     var params = req.body;
-    console.log(2);
     console.log(params);
     var sql = params.userpath;
     console.log(sql);
-    fs.readFile('..\\src\\assets\\upload_df98537f4a35412e4d93f41009cbd00d.txt', function (err, data) {
+    fs.readFile(sql, function (err, data) {
         if (err) {
             console.log(err);
         }
@@ -38,4 +37,4 @@ router.post('/abc', (req, res) => {
      });
 });
 
-module.exports = router;
+module.exports = router;    
