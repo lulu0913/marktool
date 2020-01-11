@@ -10,6 +10,7 @@ import L from '@/components/mark/L'
 import UserMark from '@/components/mark/UserMark'
 import vueRsource from 'vue-resource'
 import axios from 'axios'
+import qs from 'qs'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
  
@@ -19,7 +20,8 @@ Vue.use(vueRsource);
 
 Vue.use(Router);
 
-Vue.prototype.$ajax=axios
+Vue.prototype.$ajax=axios;
+Vue.prototype.$qs = qs;
 
 export default new Router({
   routes: [

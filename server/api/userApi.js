@@ -38,6 +38,8 @@ router.post('/addUser', (req, res) => {
   })
 });
 
+
+
 //查找用户接口
 router.post('/findUser', (req, res) => {
     var sql_name = $sql.user.select_name;
@@ -192,20 +194,6 @@ router.post('/usershowdata', (req, res) => {
             jsonWrite(res, result);
         }
     })
-});
-
-//  用户请求打开文本的文字内容
-router.post('/userfilecontent', (req, res) => {
-    var params = req.body;
-    console.log(1);
-    console.log(params);
-    fs.readFile('..\\src\\assets\\upload_df98537f4a35412e4d93f41009cbd00d.txt', function (err, data) {
-        if (err) {
-            return console.error(err);
-        }
-        console.log("异步读取: " + data.toString());
-        jsonWrite(res, data.toString());
-     });
 });
 
 

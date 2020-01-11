@@ -54,6 +54,7 @@ export default {
       };
     return {
       tableData: [],
+      userfilepath :'cc',
     }
   },
   methods:{
@@ -62,19 +63,19 @@ export default {
     },
     //  打开对应的行的文本文件进行编辑
     handleClick(row) {
+      const self = this;                      
       console.log(row.filename);
-      let userfilepath = row.filepath;
-      console.log(userfilepath);
+      this.userfilepath = row.filepath;
+      let userfilepath = this.userfilepath;
+      //this.userfilepath = row.filepath;
       localStorage.setItem('name_usermark',row.filename);
       localStorage.setItem('path_usermark',row.filepath);
-      // 向后端请求文件内容
-      const self = this;                      
-        self.$axios.post('/api/user/userfilecontent', self.userfilepath) //前端接口
-        .then((response) => {
+      var data = {'userpath': userfilepath}
+      console.log(data)
+        this.$axios.post('/api/content/abc', data).then((response)=>{
             console.log(response.data);
             localStorage.setItem('userfilecontent',response.data);
             this.$router.push('/UserMark');
-            
         }).then((error) => {
             console.log(error);
         })
