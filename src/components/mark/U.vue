@@ -8,7 +8,7 @@
   <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
     <el-menu :default-openeds="['1', '3']">
       <el-submenu index="1">
-        <template slot="title"><i class="el-icon-downloa"></i>下载文本</template>
+        <template slot="title"><i class="el-icon-downloa"></i>数据集</template>
           <el-button type="text" size="mini" icon="el-icon-more">选择文本</el-button>
           <el-button type="text" size="mini" icon="el-icon-download">确认下载</el-button>
         </el-submenu>   
@@ -26,12 +26,24 @@
     <!-- 文件显示主体部分 -->
     <el-main>
       <el-table :data="tableData">
-        <el-table-column prop="filename" label="文件名" width="950">
+        <el-table-column prop="filename" label="文件名" width="750">
+        </el-table-column>
+
+        <el-table-column prop="todo" label="状态" >
+          <template slot-scope="scope">
+            <el-button @click="handleClick(scope.row)" type="text" size="small">已编辑</el-button>
+          </template>
         </el-table-column>
 
         <el-table-column prop="todo" label="操作" >
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+          </template>
+        </el-table-column>
+
+        <el-table-column prop="todo" label="导出为XML" >
+          <template slot-scope="scope">
+            <el-button @click="handleClick(scope.row)" type="text" size="small">导出</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -46,6 +58,9 @@
 
 export default {
   name: 'U',
+  mounted :function() {
+    this.usershowdata();
+  },
   data () {
     const item = {
         date: '2016-05-02',
