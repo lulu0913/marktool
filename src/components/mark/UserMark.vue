@@ -4,8 +4,7 @@
     <div class="left">
       <!-- 普通用户的标注界面 -->
       <div class="user_mark_place">
-        <p v-html = 'filecontent' ></p>
-        <textarea v-html = 'filecontent' class="text_content" id="test"></textarea>
+        <div v-html = 'filecontent' class="text_content" id="test" contenteditable="true" ></div>
       </div>
     </div>
 
@@ -33,29 +32,65 @@ export default {
   methods:{
     //  标注参与方
     get(){
-        const myField = document.getElementById("test");
-            if (myField.selectionStart || myField.selectionStart === 0) {
-                var startPos = myField.selectionStart
-                var endPos = myField.selectionEnd
-                console.log(startPos);
-                console.log(endPos);
-                var myvalue = myField.value.substring(startPos, endPos)
-                this.filecontent = myField.value.substring(0, startPos) + '\<span style="background-color:#31acfd"\>' + myvalue + '\<\/span\>'
-                            + myField.value.substring(endPos, myField.value.length)
-            }
+        var myField = document.getElementById("test");
+        var myrange = window.getSelection().getRangeAt(0);//  找到选区
+        console.log(window.getSelection().getRangeAt(0));
+        var startoffset = myrange.startOffset;
+        var endoffset = myrange.endOffset;
+        var selectedText = window.getSelection().toString();//  将选区内容转化为字符串存在selectedText变量中
+        myrange.deleteContents();// 删除原有的文本
+        var para=document.createElement("span");//  用新建的节点代替
+        var node=document.createTextNode(selectedText);
+        para.appendChild(node);
+        para.style.color = "blue";
+        myrange.insertNode(para); 
+        myrange.setStartAfter(para);
+
+        //  获取选区内容的起止位置
+        var ele = para.previousElementSibling;
+        if(ele){
+          startoffset += parseInt(ele.getAttribute("END"));
+          endoffset += parseInt(ele.getAttribute("END"));
+          para.setAttribute("START",startoffset);
+          para.setAttribute("END",endoffset);
+          console.log(para);
+        console.log(this.filecontent);
+        }else{
+          para.setAttribute("START",startoffset);
+          console.log(para);
+          para.setAttribute("END",endoffset);  
+        console.log(this.filecontent);
+        }
     },
     time(){
-        const myField = document.getElementById("test");
-            if (myField.selectionStart || myField.selectionStart === 0) {
-                var startPos = myField.selectionStart
-                var endPos = myField.selectionEnd
-                console.log(startPos);
-                console.log(endPos);
-                var myvalue = myField.value.substring(startPos, endPos)
-                this.filecontent = myField.value.substring(0, startPos) + '\<span style="background-color:#22e663"\>' + myvalue + '\<\/span\>'
-                            + myField.value.substring(endPos, myField.value.length)
-            }
-    }
+        var myField = document.getElementById("test");
+        var myrange = window.getSelection().getRangeAt(0);//  找到选区
+        console.log(window.getSelection().getRangeAt(0));
+        var startoffset = myrange.startOffset;
+        var endoffset = myrange.endOffset;
+        var selectedText = window.getSelection().toString();//  将选区内容转化为字符串存在selectedText变量中
+        myrange.deleteContents();// 删除原有的文本
+        var para=document.createElement("span");//  用新建的节点代替
+        var node=document.createTextNode(selectedText);
+        para.appendChild(node);
+        para.style.color = "green";
+        myrange.insertNode(para); 
+        myrange.setStartAfter(para);
+
+        //  获取选区内容的起止位置
+        var ele = para.previousElementSibling;
+        if(ele){
+          startoffset += parseInt(ele.getAttribute("END"));
+          endoffset += parseInt(ele.getAttribute("END"));
+          para.setAttribute("START",startoffset);
+          para.setAttribute("END",endoffset);
+          console.log(para);
+        }else{
+          para.setAttribute("START",startoffset);
+          console.log(para);
+          para.setAttribute("END",endoffset);  
+        }
+    },
   }
 }
 </script>
@@ -75,5 +110,6 @@ export default {
 .text_content{
   width: 500px;
   height: 150px;
+  text-align: left;
 }
 </style>
