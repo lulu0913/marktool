@@ -106,22 +106,19 @@ export default {
             })
         },
 
-        show(){
-          
+        show(){          
           const self = this;                      
           self.$axios.post('/api/user/leadershowdata') //前端接口
           .then((response) => {
               console.log(response);
               console.log(response.data.length);
               console.log(response.data[1].id);
-              this.tableData = response.data;
-              
+              this.tableData = response.data;              
           }).then((error) => {
               console.log(error);
-          })
-          
-        }
-}
+          })         
+        },
+    },
 }
 </script>
 

@@ -83,7 +83,7 @@ router.get('/getUser', (req, res) => {
     var params = req.body;
     console.log(params);
     if (params.username) {
-        sql_name += "where username ='"+ params.username +"'";
+        sql_name += " WHERE username ='"+ params.username +"'";
     }
     conn.query(sql_name, params.username, function(err, result) {
         if (err) {
@@ -105,7 +105,7 @@ router.post('/findLeader', (req, res) => {
   var params = req.body;
   //console.log(params);
   if (params.username) {
-      sql_name += " where name ='"+ params.username +"'";
+      sql_name += " WHERE name ='"+ params.username +"'";
   }
   // var keywords = JSON.parse(Object.keys(params)[0]);
 

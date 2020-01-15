@@ -13,11 +13,18 @@ var sqlMap = {
       update_user: 'UPDATE leader set'
     },
 
-    //对上传的文件进行处理
+    //用户组长对上传的文件进行处理
     news: {
       add: 'INSERT INTO news(filename ,filepath) values(?,?)',
       select_name: 'SELECT * from news', 
     },
+
+    //用户对当前标注的文件进行保存
+    newsdata:{
+      add: 'INSERT INTO newsdata(filename, filepath, username, newname) values(?,?,?,?)',
+      select_name: 'SELECT * from newsdata',
+      update: 'UPDATE newsdata SET filename = ?, filepath = ?, username = ?, newname = ?'
+    }
   }
   
 module.exports = sqlMap;

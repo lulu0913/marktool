@@ -81,11 +81,12 @@ export default {
       const self = this;                      
       console.log(row.filename);
       this.userfilepath = row.filepath;
-      let userfilepath = this.userfilepath;
-      //this.userfilepath = row.filepath;
-      localStorage.setItem('name_usermark',row.filename);
+      let userfilepath = this.userfilepath; //  原数据保存的路径
+      localStorage.setItem('name_usermark',row.filename); //  txt文件的名字
       localStorage.setItem('path_usermark',row.filepath);
-      var data = {'userpath': userfilepath}
+      var username = localStorage.getItem('ms_username'); // 当前登录用户的名字
+      var filename = row.filename;
+      var data = {'userpath': userfilepath, 'filename': filename, 'username': username}
       console.log(data)
         this.$axios.post('/api/content/abc', data).then((response)=>{
             console.log(response.data);

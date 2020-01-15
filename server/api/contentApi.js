@@ -26,22 +26,77 @@ var jsonWrite = function(res, ret) {
 router.post('/abc', (req, res) => {
     var params = req.body;
     console.log(params);
-    var sql = params.userpath;
-    console.log(sql);
-    fs.readFile(sql, function (err, data) {
+    var filepath = params.userpath;
+    var newname = params.username + params.filename;
+    var sql_name = $sql.newsdata.select_name;
+
+    sql_name += " WHERE filename ='"+ newname +"'";
+
+    conn.query(sql_name, newname, function(err, result){
+      if(err){
+        console.log(err);
+      }
+      //  如果文件原来没有保存过，那么就打开原始文件
+      else if (result.length == 0) {
+        filepath = params.userpath;
+      }
+      // 如果文件原来保存过，那么打开保存的内容
+      else{
+        console.log(result[0].filepath);
+        filepath = result[0].filepath;
+      }
+
+      fs.readFile(filepath, function (err, data) {
         if (err) {
-            console.log(err);
-        }
+          console.log(err);
+        }else{
         console.log("异步读取: " + data.toString());
         jsonWrite(res, data.toString());
-     });
+        }
+      });
+    })
 });
 
 //  用户保存编辑的文档
 router.post('/usersave', (req, res) => {
   var params = req.body;
   console.log(params);
+  var newname = params.username + params.filename;
+  var filename = params.filename;
+  var username = params.username;
+  var filepath = '../src/assets/save/' + params.username + params.filename;
+  var filecontent = params.filecontent;
 
+  var sql_name = $sql.newsdata.select_name;
+  var sql_ins = $sql.newsdata.add;
+
+  // 文本的形式写入用户最新保存的标注数据
+  // 如果文件不存在就创建一个
+  fs.writeFile(filepath, filecontent,  function(err) {
+    if (err) {
+      return console.error(err);
+    }
+  });
+
+  // 如果是新创建的文件就将刚才写入的文件地址保存在数据库中
+  sql_name += " WHERE filename ='"+ newname +"'";
+  conn.query(sql_name, newname, function(err, result) {
+    if (err) {
+      console.log(err);
+    }else if (result.length == 0) {
+      conn.query(sql_ins, [filename, filepath, username, newname], function(err, result){
+        if (err) {
+          console.log(err);
+        }
+        else{
+          console.log('文件不存在。添加到数据库');
+        }
+      })
+    }else{
+      console.log('文件已存在');
+    }
+
+  })
 });
 
 module.exports = router;    
