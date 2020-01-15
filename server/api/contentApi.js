@@ -29,8 +29,9 @@ router.post('/abc', (req, res) => {
     var filepath = params.userpath;
     var newname = params.username + params.filename;
     var sql_name = $sql.newsdata.select_name;
+    console.log(newname);
 
-    sql_name += " WHERE filename ='"+ newname +"'";
+    sql_name += " WHERE newname ='"+ newname +"'";
 
     conn.query(sql_name, newname, function(err, result){
       if(err){
@@ -45,7 +46,6 @@ router.post('/abc', (req, res) => {
         console.log(result[0].filepath);
         filepath = result[0].filepath;
       }
-
       fs.readFile(filepath, function (err, data) {
         if (err) {
           console.log(err);
@@ -79,7 +79,7 @@ router.post('/usersave', (req, res) => {
   });
 
   // 如果是新创建的文件就将刚才写入的文件地址保存在数据库中
-  sql_name += " WHERE filename ='"+ newname +"'";
+  sql_name += " WHERE newname ='"+ newname +"'";
   conn.query(sql_name, newname, function(err, result) {
     if (err) {
       console.log(err);

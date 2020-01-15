@@ -22,7 +22,7 @@ var sqlMap = {
     //用户对当前标注的文件进行保存
     newsdata:{
       add: 'INSERT INTO newsdata(filename, filepath, username, newname) values(?,?,?,?)',
-      select_name: 'SELECT * from newsdata',
+      select_name: 'SELECT * FROM newsdata',
       update: 'UPDATE newsdata SET filename = ?, filepath = ?, username = ?, newname = ?'
     }
   }
