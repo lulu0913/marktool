@@ -8,6 +8,8 @@ import Manager from '@/components/home/Manager'
 import U from '@/components/mark/U'
 import L from '@/components/mark/L'
 import UserMark from '@/components/mark/UserMark'
+import NewData from '@/components/mark/LeaderDataPage/NewData'
+import OriginData from '@/components/mark/LeaderDataPage/OriginData'
 import vueRsource from 'vue-resource'
 import axios from 'axios'
 import qs from 'qs'
@@ -47,7 +49,7 @@ export default new Router({
     {
       path: '/Leader',
       name: 'Leader',
-      component:Leader 
+      component:Leader ,
     },
     {
       path: '/User',
@@ -63,6 +65,16 @@ export default new Router({
       path:'/L',
       name:'L',
       component:L,
+      children:[{
+        path: '/L/database',
+        name: 'OriginData',
+        component: OriginData,
+      },
+      {
+        path: '/L/datamarked',
+        name: 'NewData',
+        component: NewData,
+      }]
     },
     {
       path:'/UserMark',

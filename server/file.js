@@ -1,8 +1,25 @@
-var fs = require("fs");
 
-fs.readFile('../src/assets/upload_20daef3fe7bb557e7a2a0e7b8669af7a.txt', function (err, data) {
-    if (err) {
-        return console.error(err);
+var async = require("async");
+ 
+async.waterfall([
+    function(callback){
+        console.log(1);
+        callback(null,1);
+        console.log(3); //如果有error异常处理，否则向下一个函数传递参数 1
+    },
+    function(n, callback){ //接受参数1
+        console.log(n);  //n=1
+        callback(null,2);
+    },
+    function(n, callback){ //接受参数2
+        console.log(n);n=2
     }
-    console.log("异步读取: " + data.toString());
- });
+], function(err, results){
+    //如果有error则执行此处函数
+    if(err){
+        console.log('异常处理');
+    }
+    else{
+        console.log(results);
+    }
+})

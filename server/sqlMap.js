@@ -23,7 +23,9 @@ var sqlMap = {
     newsdata:{
       add: 'INSERT INTO newsdata(filename, filepath, username, newname) values(?,?,?,?)',
       select_name: 'SELECT * FROM newsdata',
-      update: 'UPDATE newsdata SET filename = ?, filepath = ?, username = ?, newname = ?'
+      update: 'UPDATE newsdata SET filename = ?, filepath = ?, username = ?, newname = ?',
+      distinct: 'SELECT DISTINCT(filename) FROM newsdata',
+      count: 'SELECT COUNT(*) number FROM newsdata',
     }
   }
   

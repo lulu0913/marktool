@@ -20,8 +20,8 @@
       <el-submenu index="1">
         <template slot="title"><i class="el-icon-user"></i>新闻小组</template>
         <el-menu-item-group>
-          <el-menu-item index="1-1">已标注</el-menu-item>
-          <el-menu-item index="1-2" @click="show">原始数据集</el-menu-item>
+          <el-menu-item index="1-1" @click="goMarked">已标注</el-menu-item>
+          <el-menu-item index="1-2" @click="goOringin">原始数据集</el-menu-item>
         </el-menu-item-group>
         </el-submenu>
 
@@ -45,15 +45,7 @@
   <el-container>
  
   <!-- 展示数据集部分 -->
-    <el-main>
-      <el-table :data="tableData">
-        <el-table-column prop="filename" label="已上传文件">
-        </el-table-column>
-
-      </el-table>
-    </el-main>
-
-
+  <router-view></router-view>
 
   </el-container>
 </el-container>
@@ -82,7 +74,7 @@ export default {
       }
     },
     methods: {
-          // post文件上传
+        // post文件上传
         getFile(event){
             this.file = event.target.files[0];
             console.log(this.file);
@@ -105,19 +97,14 @@ export default {
                 console.log(err)
             })
         },
-
-        show(){          
-          const self = this;                      
-          self.$axios.post('/api/user/leadershowdata') //前端接口
-          .then((response) => {
-              console.log(response);
-              console.log(response.data.length);
-              console.log(response.data[1].id);
-              this.tableData = response.data;              
-          }).then((error) => {
-              console.log(error);
-          })         
+        // 展示原始数据集
+        goOringin(){
+          this.$router.push('/L/database');
         },
+        // 展示标注的数据集
+        goMarked(){
+          this.$router.push('/L/datamarked');
+        }
     },
 }
 </script>

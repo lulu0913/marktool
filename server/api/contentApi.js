@@ -6,6 +6,7 @@ var $sql = require('../sqlMap');
 var bodyParser = require('body-parser');//用于req.body获取值的
 let formidableMiddleware = require('express-formidable');
 var fs = require('fs');
+var async = require('async'); 
 
 
 // 连接数据库
@@ -98,5 +99,57 @@ router.post('/usersave', (req, res) => {
 
   })
 });
+
+// 用户组长查看用户标注的文件
+router.post('/datamarked', (req, res) => {
+  var sql_name = $sql.newsdata.distinct;
+  var sql_count = $sql.newsdata.count;
+
+  async.waterfall([
+    function(callback){
+      conn.query(sql_name, function(err, result) {
+        if (err) {
+          console.log(err);
+        }else{
+          result = JSON.stringify(result);
+          result = JSON.parse(result);
+          callback(null,result);
+        }  //如果有error异常处理，否则向下一个函数传递参数result
+      })
+    },
+
+    function(n, callback){
+      let temp = new Array();
+      for (let i = 0; i < n.length; i++){
+        sql = sql_count + " WHERE filename ='"+ n[i].filename +"'"
+        conn.query(sql, function(err, result) {
+          if (err) {
+            console.log(err);
+          }else{
+            // console.log(result);
+            temp[i] = result[0];
+            if(i == n.length-1){
+              callback(null, n, temp)
+            }
+          }
+        })
+      }
+    },
+
+    function(n, temp, callback){ 
+      for(let i=0; i<n.length; i++){
+        n[i].number = temp[i].number;
+      }
+      console.log(n);
+      jsonWrite(res, n)
+    }
+
+  ], function(err, results){
+      //如果有error则执行此处函数
+      console.log('异常处理');
+  })
+})
+
+
 
 module.exports = router;    
