@@ -29,7 +29,7 @@
 <script>
 export default {
     name:'NewData', 
-        mounted: function(){
+    mounted: function(){
         this.show();
     },
     data () {
@@ -60,6 +60,16 @@ export default {
             }).then((error) => {
                 console.log(error);
             })         
+        },
+
+        //  打开对应的行的文本文件进行两个文本比较
+        handleClick(row) {
+        const self = this;                      
+        console.log(row.filename);
+        var filename = row.filename;
+        localStorage.setItem('name_leadermark',row.filename); //  txt文件的名字
+
+        this.$router.push('/leadermark');
         },
     }
 }

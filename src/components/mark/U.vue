@@ -1,6 +1,6 @@
 <template>
 <div>
-<h1>亲爱的普通用户,您好!</h1>
+<h1>亲爱的{{username}},您好!</h1>
 <div id="app">
 <el-container style="height: 500px; border: 1px solid #eee">
 
@@ -70,6 +70,7 @@ export default {
     return {
       tableData: [],
       userfilepath :'cc',
+      username: localStorage.getItem('ms_username'),
     }
   },
   methods:{

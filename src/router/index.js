@@ -8,6 +8,7 @@ import Manager from '@/components/home/Manager'
 import U from '@/components/mark/U'
 import L from '@/components/mark/L'
 import UserMark from '@/components/mark/UserMark'
+import LeaderMark from '@/components/mark/LeaderMark'
 import NewData from '@/components/mark/LeaderDataPage/NewData'
 import OriginData from '@/components/mark/LeaderDataPage/OriginData'
 import vueRsource from 'vue-resource'
@@ -80,6 +81,11 @@ export default new Router({
       path:'/UserMark',
       name:'UserMark',
       component:UserMark,
+    },
+    {
+      path:'/LeaderMark',
+      name: 'LeaderMark',
+      component: LeaderMark,
     }
   ]
 })
