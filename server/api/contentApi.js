@@ -150,6 +150,21 @@ router.post('/datamarked', (req, res) => {
   })
 })
 
+//  用户组长下载文本文件
+router.post('/txt', (req, res) => {
+  var params = req.body;
+  console.log(params);
+  var filepath = params.filepath;
+
+  fs.readFile(filepath, function (err, data) {
+    if (err) {
+      console.log(err);
+    }else{
+    console.log("异步读取: " + data.toString());
+    jsonWrite(res, data.toString());
+    }
+  });
+});
 
 
 module.exports = router;    
