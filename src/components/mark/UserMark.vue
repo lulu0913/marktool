@@ -43,6 +43,7 @@ export default {
         var node=document.createTextNode(selectedText);
         para.appendChild(node);
         para.style.color = "blue";
+        para.setAttribute("class","get"); // 节点的属性是参与方
         myrange.insertNode(para); 
         myrange.setStartAfter(para);
 
@@ -72,6 +73,7 @@ export default {
       var node=document.createTextNode(selectedText);
       para.appendChild(node);
       para.style.color = "green";
+      para.setAttribute("class","time"); //节点属性是参与时间
       myrange.insertNode(para); 
       myrange.setStartAfter(para);
 

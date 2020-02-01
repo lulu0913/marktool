@@ -43,13 +43,16 @@
 
         <el-table-column prop="todo" label="导出为XML" >
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">导出</el-button>
+            <el-button @click="xmlClick(scope.row)" type="text" size="small">导出</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-main>
   </el-container>
 </el-container>
+<!-- 用来生成xml文件，寻找文件节点时使用 -->
+<div v-html = 'filetxt' id="filexml" contenteditable="true" ></div>
+
 </div>
 </div>
 </template>
@@ -71,6 +74,7 @@ export default {
       tableData: [],
       userfilepath :'cc',
       username: localStorage.getItem('ms_username'),
+      filetxt: '',
     }
   },
   methods:{
@@ -88,7 +92,7 @@ export default {
       var username = localStorage.getItem('ms_username'); // 当前登录用户的名字
       var filename = row.filename;
       var data = {'userpath': userfilepath, 'filename': filename, 'username': username}
-      console.log(data)
+      console.log(data);
         this.$axios.post('/api/content/abc', data).then((response)=>{
             console.log(response.data);
             localStorage.setItem('userfilecontent',response.data);
@@ -97,6 +101,8 @@ export default {
             console.log(error);
         })
     },
+
+    //用户界面显示组长上传的数据集
     usershowdata()
     {
       const self = this;                      
@@ -110,9 +116,49 @@ export default {
         }).then((error) => {
             console.log(error);
         })
-    }
-  },
-  
+    },
+
+    // 创建并下载xml文件
+    xmlClick(row) {
+      const self = this;                      
+      console.log(row.filename);
+      let filename = row.filename;
+      let filepath = row.filepath;
+      let username = localStorage.getItem('ms_username'); 
+
+      var data = {'userpath': filepath, 'filename': filename, 'username': username}
+      this.$axios.post('/api/content/abc', data).then((response)=>{
+        console.log(response.data);
+        localStorage.setItem('filetxt',response.data);
+        this.filetxt = response.data;
+        var mynode = document.getElementsByClassName("get")[0];
+        console.log('hhh' + mynode.innerHTML);
+              
+        var xmldom = document.implementation.createDocument("", "root", null); 
+        console.log(xmldom.documentElement.tagName); //"root"
+        console.log(xmldom); 
+
+        var child = xmldom.createElement("child");
+        xmldom.documentElement.appendChild(child);
+        var nodetxt = document.createTextNode(mynode.innerHTML);
+        child.appendChild(nodetxt);
+        }).then((error) => {
+            console.log(error);
+        })
+
+
+
+      // console.log(1);
+      // //创建一个根节点，并添加到xml
+      // var Root = doc.createElement("root");
+      // doc.appendChild(Root);
+      // var Row = doc.createElement("row");
+      // Root.appendChild(Row);
+      // //向根节点添加属性，setAttribute(key , value);
+      // Row.setAttribute("operation", "search");
+      // alert(doc.xml)
+    },
+  },  
 }
 </script>
 

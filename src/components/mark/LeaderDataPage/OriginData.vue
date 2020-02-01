@@ -68,6 +68,7 @@ export default {
               document.body.appendChild(element);
               element.click();
               document.body.removeChild(element);
+              
           }).then((error) => {
               console.log(error);
           })
