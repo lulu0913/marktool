@@ -128,20 +128,44 @@ export default {
 
       var data = {'userpath': filepath, 'filename': filename, 'username': username}
       this.$axios.post('/api/content/abc', data).then((response)=>{
-        console.log(response.data);
+        console.log(response.data);// 请求到的用户标注过的文本
         localStorage.setItem('filetxt',response.data);
         this.filetxt = response.data;
-        var mynode = document.getElementsByClassName("get")[0];
-        console.log('hhh' + mynode.innerHTML);
-              
-        var xmldom = document.implementation.createDocument("", "root", null); 
-        console.log(xmldom.documentElement.tagName); //"root"
-        console.log(xmldom); 
 
-        var child = xmldom.createElement("child");
-        xmldom.documentElement.appendChild(child);
-        var nodetxt = document.createTextNode(mynode.innerHTML);
-        child.appendChild(nodetxt);
+        var getnode = document.getElementsByClassName("get");
+        var xmldom = document.implementation.createDocument("", "root", null); 
+        // console.log(xmldom.documentElement.tagName); //"root"
+        for(var i=0;i<getnode.length;i++)
+        {
+          var child = xmldom.createElement("event_argument");
+          var nodetxt = document.createTextNode(getnode[i].innerHTML);
+          var start = getnode[i].getAttribute("start");
+          var end = getnode[i].getAttribute("end");
+          xmldom.documentElement.appendChild(child);
+          child.appendChild(nodetxt);
+          child.setAttribute("START", start);
+          child.setAttribute("END", end);
+          child.setAttribute("ROLE", "参与方");
+        }
+
+        var parser = new DOMParser();
+        var xmldom = parser.parseFromString(xmldom, "text/xml");
+
+        var r=new XMLHttpRequest();
+        r.onload=function()
+        {
+          var a=document.createElement('a');
+          a.href=URL.createObjectURL(new Blob([xmldom]));
+          a.download=filename+'.xml';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        }
+        r.open('get',filename+'.xml');
+        r.send();
+
+
+        console.log(xmldom); 
         }).then((error) => {
             console.log(error);
         })
