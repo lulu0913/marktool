@@ -148,21 +148,15 @@ export default {
           child.setAttribute("ROLE", "参与方");
         }
 
-        var parser = new DOMParser();
-        var xmldom = parser.parseFromString(xmldom, "text/xml");
+        var serializer = new XMLSerializer();
+        var xml = serializer.serializeToString(xmldom);
 
-        var r=new XMLHttpRequest();
-        r.onload=function()
-        {
-          var a=document.createElement('a');
-          a.href=URL.createObjectURL(new Blob([xmldom]));
-          a.download=filename+'.xml';
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-        }
-        r.open('get',filename+'.xml');
-        r.send();
+        let a = document.createElement('a');
+        let blob = new Blob([xml]); 
+        let objectUrl = URL.createObjectURL(blob);
+        a.setAttribute("href",objectUrl);
+        a.setAttribute("download", '123.xml');
+        a.click();
 
 
         console.log(xmldom); 
