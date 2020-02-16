@@ -70,6 +70,7 @@ router.post('/usersave', (req, res) => {
 
   var sql_name = $sql.newsdata.select_name;
   var sql_ins = $sql.newsdata.add;
+  sql_name += " WHERE newname ='"+ newname +"'";
 
   // 文本的形式写入用户最新保存的标注数据
   // 如果文件不存在就创建一个
@@ -79,8 +80,27 @@ router.post('/usersave', (req, res) => {
     }
   });
 
+  async.waterfall([
+    function(callback){
+        console.log(1);
+        callback(null,1);
+        console.log(3); //如果有error异常处理，否则向下一个函数传递参数 1
+    },
+    function(n, callback){ //接受参数1
+        console.log(n);  //n=1
+        callback(null,2);
+    },
+    function(n, callback){ //接受参数2
+        console.log(n);n=2
+    }
+  ], function(err, results){
+        //如果有error则执行此处函数
+        if(err){
+            console.log('异常处理');
+        }
+  })
+
   // 如果是新创建的文件就将刚才写入的文件地址保存在数据库中
-  sql_name += " WHERE newname ='"+ newname +"'";
   conn.query(sql_name, newname, function(err, result) {
     if (err) {
       console.log(err);
@@ -96,7 +116,6 @@ router.post('/usersave', (req, res) => {
     }else{
       console.log('文件已存在');
     }
-
   })
 });
 

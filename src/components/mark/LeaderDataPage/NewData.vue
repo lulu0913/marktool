@@ -8,13 +8,13 @@
         <el-table-column prop="number" label="标注人数" width="100">
         </el-table-column>
 
+        <el-table-column prop="k" label="一致性" width="100">
+        </el-table-column>
+
         <el-table-column prop="todo" label="查看标注" width="100">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small" width="100">编辑</el-button>
           </template>
-        </el-table-column>
-
-        <el-table-column prop="final" label="最终标注" width="100">
         </el-table-column>
 
         <el-table-column prop="export" label="导出为XML" width="100">
@@ -22,6 +22,7 @@
             <el-button @click="handleClick(scope.row)" type="text" size="small">导出</el-button>
           </template>
         </el-table-column>
+        <!-- 如果有最终标注则可以导出为xml，如果没有最终标注那么xml为灰色 -->
       </el-table>
     </el-main>
 </template>

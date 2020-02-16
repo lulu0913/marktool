@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title></title>
+
+</head>
+<body>
+
+    <div id="a1" data-filename="1.docx" onclick="go()">下载</div>
+    <div id="progressing"></div>
+    <script>
+        function go() {
+            var that = this;
+            var page_url = 'download.ashx';
+            var req = new XMLHttpRequest();
+            req.open("POST", page_url, true);
+            //监听进度事件
+            req.addEventListener("progress", function (evt) {
+                if (evt.lengthComputable) {
+                    var percentComplete = evt.loaded / evt.total;
+                    console.log(percentComplete);
+                    document.getElementById("progressing").html((percentComplete * 100) + "%");
+                }
+            }, false);
+
+            req.responseType = "blob";
+            req.onreadystatechange = function () {
+                if (req.readyState === 4 && req.status === 200) {
+                    var filename = $(that).data('filename');
+                    if (typeof window.chrome !== 'undefined') {
+                        // Chrome version
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(req.response);
+                        link.download = filename;
+                        link.click();
+                    } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                        // IE version
+                        var blob = new Blob([req.response], { type: 'application/force-download' });
+                        window.navigator.msSaveBlob(blob, filename);
+                    } else {
+                        // Firefox version
+                        var file = new File([req.response], filename, { type: 'application/force-download' });
+                        window.open(URL.createObjectURL(file));
+                    }
+                }
+            };
+            req.send();
+        };
+    </script>
+
+</body>
+</html>

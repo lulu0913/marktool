@@ -51,7 +51,7 @@
   </el-container>
 </el-container>
 <!-- 用来生成xml文件，寻找文件节点时使用 -->
-<div v-html = 'filetxt' id="filexml" contenteditable="true" ></div>
+<div v-html = 'filetxt' id="filexml" style="display:none" contenteditable="true" ></div>
 
 </div>
 </div>
@@ -133,7 +133,7 @@ export default {
         this.filetxt = response.data;
 
         var getnode = document.getElementsByClassName("get");
-        var xmldom = document.implementation.createDocument("", "root", null); 
+        var xmldom = document.implementation.createDocument("", "root", null); // 创建xml对象
         // console.log(xmldom.documentElement.tagName); //"root"
         for(var i=0;i<getnode.length;i++)
         {
@@ -149,7 +149,8 @@ export default {
         }
 
         var serializer = new XMLSerializer();
-        var xml = serializer.serializeToString(xmldom);
+        var xml = serializer.serializeToString(xmldom);// 将xml解析为dom
+        console.log(xml);
 
         let a = document.createElement('a');
         let blob = new Blob([xml]); 
