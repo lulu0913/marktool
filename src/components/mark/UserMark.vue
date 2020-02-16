@@ -5,6 +5,7 @@
       <!-- 普通用户的标注界面 -->
       <div class="user_mark_place">
         <div v-html = 'filecontent' class="text_content" id="test" contenteditable="true" ></div>
+        <div id="allfile" style="display:none"></div>
       </div>
     </div>
 
@@ -98,9 +99,26 @@ export default {
       var myField = document.getElementById("test");
       var filecontent = myField.innerHTML;
       var data = {'filename': filename, 'username':username, 'filecontent':filecontent}
-      console.log(data)
+      // console.log(data);
         this.$axios.post('/api/content/usersave', data).then((response)=>{
             console.log(response.data);
+            var allfile = response.data;
+            document.getElementById("allfile").innerHTML = allfile;
+
+            var getnode = document.getElementById("allfile").getElementsByClassName("get");
+            for(var i=0;i<getnode.length;i++)
+            {
+              var mynode1 = getnode[i];
+              var start1 = mynode1.getAttribute("start");
+              var end1 = mynode1.getAttribute("end");
+              for(var j=i+1;j<getnode.length;j++){
+                var mynode2 = getnode[j];
+                var start2 = mynode2.getAttribute("start");
+                var end2 = mynode2.getAttribute("end");
+                
+              }
+            }
+            
         }).then((error) => {
             console.log(error);
         })

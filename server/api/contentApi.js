@@ -58,7 +58,7 @@ router.post('/abc', (req, res) => {
     })
 });
 
-//  用户保存编辑的文档
+//  用户保存编辑的文档，同时进行一致性检测
 router.post('/usersave', (req, res) => {
   var params = req.body;
   console.log(params);
@@ -67,9 +67,11 @@ router.post('/usersave', (req, res) => {
   var username = params.username;
   var filepath = '../src/assets/save/' + params.username + params.filename;
   var filecontent = params.filecontent;
+  var allfile;
 
-  var sql_name = $sql.newsdata.select_name;
+  var sql_select = $sql.newsdata.select_name + " WHERE filename ='"+ filename +"'";
   var sql_ins = $sql.newsdata.add;
+  var sql_name = $sql.newsdata.select_name;
   sql_name += " WHERE newname ='"+ newname +"'";
 
   // 文本的形式写入用户最新保存的标注数据
@@ -82,40 +84,58 @@ router.post('/usersave', (req, res) => {
 
   async.waterfall([
     function(callback){
-        console.log(1);
-        callback(null,1);
-        console.log(3); //如果有error异常处理，否则向下一个函数传递参数 1
+        // 如果是新创建的文件就将刚才写入的文件地址保存在数据库中
+        conn.query(sql_name, newname, function(err, result) {
+          if (err) {
+            console.log(err);
+          }else{
+            result = JSON.stringify(result);
+            result = JSON.parse(result);
+            callback(null,result);
+          }
+        }) //如果有error异常处理，否则向下一个函数传递参数 result
     },
-    function(n, callback){ //接受参数1
-        console.log(n);  //n=1
-        callback(null,2);
+    function(n, callback){ //接受参数result
+        if(n.length == 0){  //首次编辑，保存新文件名和路径
+          conn.query(sql_ins, [filename, filepath, username, newname], function(err, result){
+            if (err) {
+              console.log(err);
+            }
+            else{
+              console.log('文件不存在。添加到数据库');
+              callback(null,2);
+            }
+          })
+        }else{
+          callback(null,2);
+        }
     },
     function(n, callback){ //接受参数2
-        console.log(n);n=2
+        console.log(n);
+        // 获得所有用户标注的该文件内容
+        conn.query(sql_select, filename, function(err, result) {
+          if (err) {
+            console.log(err);
+          }else{
+            result = JSON.stringify(result);
+            result = JSON.parse(result);
+            console.log(result);
+            for(let j=0;j<result.length;j++){
+              var data = fs.readFileSync(result[j].filepath);
+              allfile += data.toString();
+              if(j == result.length-1){
+                // callback(null,allfile);
+                jsonWrite(res, allfile)
+              }
+            }
+          }
+        }) 
     }
   ], function(err, results){
         //如果有error则执行此处函数
         if(err){
             console.log('异常处理');
         }
-  })
-
-  // 如果是新创建的文件就将刚才写入的文件地址保存在数据库中
-  conn.query(sql_name, newname, function(err, result) {
-    if (err) {
-      console.log(err);
-    }else if (result.length == 0) {
-      conn.query(sql_ins, [filename, filepath, username, newname], function(err, result){
-        if (err) {
-          console.log(err);
-        }
-        else{
-          console.log('文件不存在。添加到数据库');
-        }
-      })
-    }else{
-      console.log('文件已存在');
-    }
   })
 });
 
