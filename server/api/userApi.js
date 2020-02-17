@@ -181,7 +181,7 @@ router.post('/leadershowdata', (req, res) => {
 router.post('/usershowdata', (req, res) => {
     var sql_name = $sql.news.select_name;
 
-    //  console.log(sql_name);
+    console.log('testtt');
     conn.query(sql_name, function(err, result) {
         if (err) {
             console.log(err);

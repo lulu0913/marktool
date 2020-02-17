@@ -116,16 +116,22 @@ router.post('/usersave', (req, res) => {
         conn.query(sql_select, filename, function(err, result) {
           if (err) {
             console.log(err);
-          }else{
+          }
+          else
+          {
             result = JSON.stringify(result);
             result = JSON.parse(result);
             console.log(result);
-            for(let j=0;j<result.length;j++){
+            for(let j=0;j<result.length;j++)
+            {
               var data = fs.readFileSync(result[j].filepath);
               allfile += data.toString();
               if(j == result.length-1){
-                // callback(null,allfile);
-                jsonWrite(res, allfile)
+                if(result.length == 1)
+                {
+                  allfile = 1;
+                }
+                jsonWrite(res, allfile);
               }
             }
           }

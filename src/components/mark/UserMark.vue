@@ -101,60 +101,68 @@ export default {
       var data = {'filename': filename, 'username':username, 'filecontent':filecontent}
       // console.log(data);
         this.$axios.post('/api/content/usersave', data).then((response)=>{
-            console.log(response.data);
-            var allfile = response.data;
-            document.getElementById("allfile").innerHTML = allfile;
-            // 一致性检测
-            var getnode = document.getElementById("allfile").getElementsByClassName("get");
-            var temp = new Array();
-            for(var i=0;i<getnode.length;i++)
+            console.log('用于检测一致性的文件个数' + response.data);
+            var k = 0;  //和当前节点有交集的节点数
+            var m = 0;  //有交集计算一致性
+            var n = 0;  //全文的一致性
+            if(response.data == 1)
             {
-              var mynode1 = getnode[i];
-              var start1 = mynode1.getAttribute("start");
-              var end1 = mynode1.getAttribute("end");
-              var k = 0;  //和当前节点有交集的节点数
-              var m = 0;  //有交集计算一致性
-              var n = 0;  //全文的一致性
-              for(var j=0;j<getnode.length;j++)
+              n = 1;
+            }
+            else
+            {
+              var allfile = response.data;
+              document.getElementById("allfile").innerHTML = allfile;
+              // 一致性检测
+              var getnode = document.getElementById("allfile").getElementsByClassName("get");
+              var temp = new Array();
+              for(var i=0;i<getnode.length;i++)
               {
-                if(j!=i)
+                var mynode1 = getnode[i];
+                var start1 = mynode1.getAttribute("start");
+                var end1 = mynode1.getAttribute("end");
+                for(var j=0;j<getnode.length;j++)
                 {
-                  var mynode2 = getnode[j];
-                  var start2 = mynode2.getAttribute("start");
-                  var end2 = mynode2.getAttribute("end");
-                  if(start2<end1)
+                  if(j!=i)
                   {
-                    m = m+((end1-start2)/(end2-start1));
-                    k++;
-                  }
-                  else if(start1<end2)
-                  {
-                    m = m+((end2-start1)/(end1-start2));
-                    k++;
-                  }
-                  else if((start1>=start2)&&(end1<=end2))
-                  {
-                    m = m+((end1-start1)/(end2-start2));
-                    k++;
-                  }
-                  else if((start1<start2)&&(end2<end1))
-                  {
-                    m = m+((end2-start2)/(end1-start1));
-                    k++;
+                    var mynode2 = getnode[j];
+                    var start2 = mynode2.getAttribute("start");
+                    var end2 = mynode2.getAttribute("end");
+                    if(start2<end1)
+                    {
+                      m = m+((end1-start2)/(end2-start1));
+                      k++;
+                    }
+                    else if(start1<end2)
+                    {
+                      m = m+((end2-start1)/(end1-start2));
+                      k++;
+                    }
+                    else if((start1>=start2)&&(end1<=end2))
+                    {
+                      m = m+((end1-start1)/(end2-start2));
+                      k++;
+                    }
+                    else if((start1<start2)&&(end2<end1))
+                    {
+                      m = m+((end2-start2)/(end1-start1));
+                      k++;
+                    }
                   }
                 }
+                if(k==0)
+                {
+                  temp[i]=0;
+                }
+                else
+                {
+                  temp[i]=m/k;
+                }
+                n+=temp[i];
               }
-              if(k==0)
-              {
-                temp[i]=0;
-              }
-              else
-              {
-                temp[i]=m/k;
-              }
-              n+=temp[i];
+              n = n/getnode.length;
             }
-            n = n/getnode.length;
+
             console.log(n);
             
         }).then((error) => {
