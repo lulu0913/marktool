@@ -61,7 +61,7 @@ router.post('/abc', (req, res) => {
 //  用户保存编辑的文档，同时进行一致性检测
 router.post('/usersave', (req, res) => {
   var params = req.body;
-  console.log(params);
+  // console.log(params);
   var newname = params.username + params.filename;
   var filename = params.filename;
   var username = params.username;
@@ -121,7 +121,7 @@ router.post('/usersave', (req, res) => {
           {
             result = JSON.stringify(result);
             result = JSON.parse(result);
-            console.log(result);
+            // console.log(result);
             for(let j=0;j<result.length;j++)
             {
               var data = fs.readFileSync(result[j].filepath);
@@ -209,6 +209,21 @@ router.post('/txt', (req, res) => {
     jsonWrite(res, data.toString());
     }
   });
+});
+
+//  将前端算出的k值保存到数据库中
+router.post('/setk', (req, res) => {
+  var params = req.body;
+  var k = params.k_value;
+  var filename = params.filename;
+  var sql_setk = $sql.newsdata.set_k + " WHERE filename ='"+ filename +"'";
+  console.log(k);
+  conn.query(sql_setk, k, function(err, result) {
+    if (err) {
+        console.log(err);
+    }
+  })
+
 });
 
 

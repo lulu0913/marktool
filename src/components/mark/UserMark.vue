@@ -92,6 +92,7 @@ export default {
         para.setAttribute("END",endoffset);  
       }
     },
+    //  保存用户当前的编辑，以及计算编辑之后文件的一致性
     save(){
       const self = this;                      
       var filename = localStorage.getItem('name_usermark');
@@ -164,12 +165,21 @@ export default {
             }
 
             console.log(n);
-            
+            this.$options.methods.storeK(n,this);
         }).then((error) => {
             console.log(error);
         })
     },
-    
+    //  将计算出来的k值传到后端，保存到数据库中
+    storeK(n,that){
+      console.log(n)
+      var filename = localStorage.getItem('name_usermark');
+      that.$axios.post('/api/content/setk', {'k_value': n, 'filename': filename}).then((response)=>{
+
+        }).then((error) => {
+            console.log(error);
+        })
+    }
   }
 }
 </script>
