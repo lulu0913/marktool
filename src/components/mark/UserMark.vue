@@ -104,20 +104,58 @@ export default {
             console.log(response.data);
             var allfile = response.data;
             document.getElementById("allfile").innerHTML = allfile;
-
+            // 一致性检测
             var getnode = document.getElementById("allfile").getElementsByClassName("get");
+            var temp = new Array();
             for(var i=0;i<getnode.length;i++)
             {
               var mynode1 = getnode[i];
               var start1 = mynode1.getAttribute("start");
               var end1 = mynode1.getAttribute("end");
-              for(var j=i+1;j<getnode.length;j++){
-                var mynode2 = getnode[j];
-                var start2 = mynode2.getAttribute("start");
-                var end2 = mynode2.getAttribute("end");
-                
+              var k = 0;  //和当前节点有交集的节点数
+              var m = 0;  //有交集计算一致性
+              var n = 0;  //全文的一致性
+              for(var j=0;j<getnode.length;j++)
+              {
+                if(j!=i)
+                {
+                  var mynode2 = getnode[j];
+                  var start2 = mynode2.getAttribute("start");
+                  var end2 = mynode2.getAttribute("end");
+                  if(start2<end1)
+                  {
+                    m = m+((end1-start2)/(end2-start1));
+                    k++;
+                  }
+                  else if(start1<end2)
+                  {
+                    m = m+((end2-start1)/(end1-start2));
+                    k++;
+                  }
+                  else if((start1>=start2)&&(end1<=end2))
+                  {
+                    m = m+((end1-start1)/(end2-start2));
+                    k++;
+                  }
+                  else if((start1<start2)&&(end2<end1))
+                  {
+                    m = m+((end2-start2)/(end1-start1));
+                    k++;
+                  }
+                }
               }
+              if(k==0)
+              {
+                temp[i]=0;
+              }
+              else
+              {
+                temp[i]=m/k;
+              }
+              n+=temp[i];
             }
+            n = n/getnode.length;
+            console.log(n);
             
         }).then((error) => {
             console.log(error);
