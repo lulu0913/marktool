@@ -175,7 +175,7 @@ export default {
       console.log(n)
       var filename = localStorage.getItem('name_usermark');
       that.$axios.post('/api/content/setk', {'k_value': n, 'filename': filename}).then((response)=>{
-
+        console.log(response);
         }).then((error) => {
             console.log(error);
         })

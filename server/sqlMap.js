@@ -27,6 +27,7 @@ var sqlMap = {
       distinct: 'SELECT DISTINCT(filename) FROM newsdata',
       count: 'SELECT COUNT(*) number FROM newsdata',
       set_k: 'UPDATE newsdata SET kvalue = ?',
+      get_k: 'SELECT kvalue FROM newsdata',
     }
   }
   

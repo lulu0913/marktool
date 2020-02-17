@@ -149,6 +149,7 @@ router.post('/usersave', (req, res) => {
 router.post('/datamarked', (req, res) => {
   var sql_name = $sql.newsdata.distinct;
   var sql_count = $sql.newsdata.count;
+  var sql_getk = $sql.newsdata.get_k;
 
   async.waterfall([
     function(callback){
@@ -171,8 +172,25 @@ router.post('/datamarked', (req, res) => {
           if (err) {
             console.log(err);
           }else{
-            // console.log(result);
+            // console.log(result[0]);
             temp[i] = result[0];
+            if(i == n.length-1){
+              callback(null, n, temp)
+            }
+          }
+        })
+      }
+    },
+
+    function(n, temp, callback){ 
+      for (let i = 0; i < n.length; i++){
+        sql = sql_getk + " WHERE filename ='"+ n[i].filename +"'"
+        conn.query(sql, function(err, result) {
+          if (err) {
+            console.log(err);
+          }else{
+            // console.log(result[0]);
+            n[i].k = result[0].kvalue;
             if(i == n.length-1){
               callback(null, n, temp)
             }
@@ -221,6 +239,10 @@ router.post('/setk', (req, res) => {
   conn.query(sql_setk, k, function(err, result) {
     if (err) {
         console.log(err);
+    }
+    else
+    {
+      jsonWrite(res,1)
     }
   })
 
