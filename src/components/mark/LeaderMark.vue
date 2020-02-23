@@ -1,14 +1,39 @@
 <template>
-  <div>
+  <div id="leaderbody">
+    <div class="headblock"><h1>{{filename}}</h1></div>
     <el-container>
-      <el-header>{{ filename }}</el-header>
+      <el-header>
+        <!-- 左边的选择下拉框 -->
+        <div class="headleft">
+          <select v-model="selected" name="fruit">
+            <option value="">选择一个网站</option>
+            <option value="www.runoob.com">Runoob</option>
+            <option value="www.google.com">Google</option>
+          </select>
+        </div>
+
+        <!-- 右边的选择下拉框 -->
+        <div class="headright">
+          <select v-model="selected" name="fruit1">
+            <option value="">选择一个标记版本</option>
+            <option value="www.runoob.com">Runoob</option>
+            <option value="www.google.com">Google</option>
+          </select>
+        </div>
+      </el-header>
 
         <el-container>
           <!-- 左边框 -->
-          <el-main width="50%">Main</el-main>
+          <el-main width="50%">Main
+            <div v-html = 'filecontent' class="text_content" id="test" contenteditable="true" ></div>
+
+
+          </el-main>
 
           <!-- 右边框 -->
-          <el-main width="50%">Main</el-main>
+          <el-main width="50%">Main
+            <div v-html = 'filecontent' class="text_content" id="test" contenteditable="true" ></div>
+          </el-main>
         </el-container>
     </el-container>  
   </div>
@@ -23,6 +48,7 @@ export default {
     data(){
         return{
             filename: localStorage.getItem('name_leadermark'),
+            selected: '' ,
         }
     },
     methods:{
@@ -72,5 +98,19 @@ export default {
   
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
+  }
+
+  .headblock{
+    height: 100px;
+  }
+
+  .headleft{
+    width: 49%;
+    display: inline-block;
+  }
+
+  .headright{
+    width: 49%;
+    display: inline-block;
   }
 </style>

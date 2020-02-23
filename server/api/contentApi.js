@@ -248,5 +248,23 @@ router.post('/setk', (req, res) => {
 
 });
 
+//  获取本篇标注的用户
+router.post('/setk', (req, res) => {
+  var params = req.body;
+  var k = params.k_value;
+  var filename = params.filename;
+  var sql_setk = $sql.newsdata.set_k + " WHERE filename ='"+ filename +"'";
+  console.log(k);
+  conn.query(sql_setk, k, function(err, result) {
+    if (err) {
+        console.log(err);
+    }
+    else
+    {
+      jsonWrite(res,1)
+    }
+  })
+
+});
 
 module.exports = router;    
