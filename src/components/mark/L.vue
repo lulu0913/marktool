@@ -104,7 +104,7 @@ export default {
         // 展示标注的数据集
         goMarked(){
           this.$router.push('/L/datamarked');
-        }
+        },
     },
 }
 </script>
