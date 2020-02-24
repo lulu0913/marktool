@@ -22,16 +22,19 @@ var sqlMap = {
     //用户对当前标注的文件进行保存
     newsdata:{
       add: 'INSERT INTO newsdata(filename, filepath, username, newname) values(?,?,?,?)',
-      addfinal: 'INSERT INTO newsdata(filename, filepath, username, newname, finalmark) values(?,?,?,?,?)',
       select_name: 'SELECT * FROM newsdata',
       update: 'UPDATE newsdata SET filename = ?, filepath = ?, username = ?, newname = ?',
       distinct: 'SELECT DISTINCT(filename) FROM newsdata',
       count: 'SELECT COUNT(*) number FROM newsdata',
       set_k: 'UPDATE newsdata SET kvalue = ?',
-      set_finalmark: 'UPDATE newsdata SET finalmark = ?',
       get_k: 'SELECT kvalue FROM newsdata',
       get_username: 'SELECT username FROM newsdata',
-    }
+    },
+
+    finaldata:{
+      add: 'INSERT INTO finaldata(filename, filepath, leadername, newname, finalmark) values(?,?,?,?,?)',
+      select_name: 'SELECT * FROM newsdata',
+    },
   }
   
 module.exports = sqlMap;

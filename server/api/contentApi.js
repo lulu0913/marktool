@@ -306,15 +306,13 @@ router.post('/leadersave', (req, res) => {
   var params = req.body;
   // console.log(params);
   var filename = params.filename;
-  var username = params.leadername;
+  var leadername = params.leadername;
   var filecontent = params.filecontent;
-  var newname = username + filename;
-  var filepath = '../src/assets/save/' + username + filename;
-  var sql_insfinal = $sql.newsdata.addfinal;
-  var sql_setfinalmark = $sql.newsdata.set_finalmark;
+  var newname = leadername + filename;
+  var filepath = '../src/assets/save/' + leadername + filename;
+  var sql_ins = $sql.finaldata.add;
   var sql_name = $sql.newsdata.select_name;
   sql_name += " WHERE newname ='"+ newname +"'";
-  sql_setfinalmark += " WHERE filename ='"+ filename +"'";
 
   // 文本的形式写入用户最新保存的标注数据
   // 如果文件不存在就创建一个
@@ -339,32 +337,19 @@ router.post('/leadersave', (req, res) => {
     },
     function(n, callback){ //接受参数result
         if(n.length == 0){  //首次编辑，保存新文件名和路径
-          conn.query(sql_insfinal, [filename, filepath, username, newname, 1], function(err, result){
+          conn.query(sql_ins, [filename, filepath, leadername, newname, 1], function(err, result){
             if (err) {
               console.log(err);
             }
             else{
               console.log('文件之前没有最终标注，在数据库保存最终标注');
-              callback(null,2);
+              jsonWrite(res, 2);
             }
           })
         }else{
-          callback(null,2);
-        }
-    },
-    function(n, callback){ //接受参数2
-      console.log(n);
-      // 获得所有用户标注的该文件内容
-      conn.query(sql_setfinalmark, 1, function(err, result) {
-        if (err) {
-          console.log(err);
-        }
-        else
-        {
           jsonWrite(res, 2);
         }
-      }) 
-    }
+    },
   ], function(err, results){
         //如果有error则执行此处函数
         if(err){
