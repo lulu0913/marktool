@@ -249,19 +249,53 @@ router.post('/setk', (req, res) => {
 });
 
 //  获取本篇标注的用户
-router.post('/setk', (req, res) => {
+router.post('/leadermark', (req, res) => {
   var params = req.body;
-  var k = params.k_value;
   var filename = params.filename;
-  var sql_setk = $sql.newsdata.set_k + " WHERE filename ='"+ filename +"'";
-  console.log(k);
-  conn.query(sql_setk, k, function(err, result) {
+  var sql_getuername = $sql.newsdata.get_username + " WHERE filename ='"+ filename +"'";
+  conn.query(sql_getuername, function(err, result) {
     if (err) {
         console.log(err);
     }
     else
     {
-      jsonWrite(res,1)
+      result = JSON.stringify(result); // 将查询结果前面的rowdatapacket去掉
+      result = JSON.parse(result);
+      console.log(result);
+      jsonWrite(res,result);
+    }
+  })
+
+});
+
+//  用户组长获取用户标注的内容
+router.post('/comparison', (req, res) => {
+  var params = req.body;
+  var filename = params.filename;
+  var username = params.username;
+  var newname = username + filename;
+  var sql_name = $sql.newsdata.select_name;
+  sql_name += " WHERE newname ='"+ newname +"'";
+  conn.query(sql_name, function(err, result) {
+    if (err) {
+        console.log(err);
+    }
+    // 组长没有查找到这个用户标记到的文件
+    else if (result.length == 0) 
+    {
+      console.log("发出bug的声音");
+    }
+    else
+    {
+      var filepath = result[0].filepath;
+      fs.readFile(filepath, function (err, data) {
+        if (err) {
+          console.log(err);
+        }else{
+        console.log("异步读取: " + data.toString());
+        jsonWrite(res, data.toString());
+        }
+      });
     }
   })
 

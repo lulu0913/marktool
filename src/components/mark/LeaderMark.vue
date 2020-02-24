@@ -5,34 +5,28 @@
       <el-header>
         <!-- 左边的选择下拉框 -->
         <div class="headleft">
-          <select v-model="selected" name="fruit">
-            <option value="">选择一个网站</option>
-            <option value="www.runoob.com">Runoob</option>
-            <option value="www.google.com">Google</option>
+          <select v-model="selected_1" name="fruit" id="select_1" @change="mySelection_1()">
           </select>
         </div>
 
         <!-- 右边的选择下拉框 -->
         <div class="headright">
-          <select v-model="selected" name="fruit1">
-            <option value="">选择一个标记版本</option>
-            <option value="www.runoob.com">Runoob</option>
-            <option value="www.google.com">Google</option>
+          <select v-model="selected_2" name="fruit" id="select_2" @change="mySelection_2()">
           </select>
         </div>
       </el-header>
 
         <el-container>
           <!-- 左边框 -->
-          <el-main width="50%">Main
-            <div v-html = 'filecontent' class="text_content" id="test" contenteditable="true" ></div>
+          <el-main width="49%">
+            <div v-html = 'filecontent_1' class="text_content" id="text_1" contenteditable="true"></div>
 
 
           </el-main>
 
           <!-- 右边框 -->
-          <el-main width="50%">Main
-            <div v-html = 'filecontent' class="text_content" id="test" contenteditable="true" ></div>
+          <el-main width="49%">
+            <div v-html = 'filecontent_2' class="text_content" id="text_2" contenteditable="true"></div>
           </el-main>
         </el-container>
     </el-container>  
@@ -48,20 +42,76 @@ export default {
     data(){
         return{
             filename: localStorage.getItem('name_leadermark'),
-            selected: '' ,
+            selected_1: '' ,
+            selected_2: '' ,
+            filecontent_1:'',
+            filecontent_2:'',
         }
     },
     methods:{
         view(){
-            var data = {'filename': filename}
+            var data = {'filename': this.filename};
+            var UserData = new Array();
             this.$axios.post('/api/content/leadermark', data).then((response)=>{
                 console.log(response.data);
-                localStorage.setItem('userfilecontent',response.data);
-                this.$router.push('/LeaderMark');
+                UserData = response.data;
+                // 将标记了本篇数据的用户放到这个下拉框里
+                for(var i=0; i<UserData.length; i++)
+                {
+                    document.getElementById("select_1").options.add(new Option(UserData[i].username, UserData[i].username));
+                    document.getElementById("select_2").options.add(new Option(UserData[i].username, UserData[i].username));
+                }
+                this.$options.methods.mySelection(this, UserData[0].username);
             }).then((error) => {
                 console.log(error);
             })
-        }
+        },
+
+        // 选择要查看的用户，并显示出该用户的标记
+        mySelection_1(){
+          var username = this.selected_1;
+          var filename = this.filename;
+          console.log(username);
+          console.log(filename);
+          var data = {"username": username, "filename":filename};
+          this.$axios.post('/api/content/comparison', data).then((response)=>{
+            console.log(response.data);
+            this.filecontent_1 = response.data;
+          }).then((error) => {
+              console.log(error);
+          })
+        },
+
+        // 选择要查看的用户，并显示出该用户的标记
+        mySelection_2(){
+          console.log(this.selected_2);
+          var username = this.selected_2;
+          var filename = this.filename;
+          var data = {"username": username, "filename":filename};
+          this.$axios.post('/api/content/comparison', data).then((response)=>{
+            console.log(response.data);
+            this.filecontent_2 = response.data;
+          }).then((error) => {
+              console.log(error);
+          })
+        },
+
+        // 刷新页面时就执行，选择要查看的用户，并显示出该用户的标记
+        mySelection(that, n){
+          console.log(that.selected_2);
+          var username = n;
+          var filename = that.filename;
+          var data = {"username": username, "filename":filename};
+          that.selected_1=username;
+          that.selected_2=username;
+          that.$axios.post('/api/content/comparison', data).then((response)=>{
+            console.log(response.data);
+            that.filecontent_2 = response.data;
+            that.filecontent_1 = response.data;
+          }).then((error) => {
+              console.log(error);
+          })
+        },
     }
 
 }
@@ -112,5 +162,11 @@ export default {
   .headright{
     width: 49%;
     display: inline-block;
+  }
+
+  .text_content{
+    width: 94%;
+    text-align: left;
+    margin-left: 3%;
   }
 </style>

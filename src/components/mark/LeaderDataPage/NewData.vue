@@ -73,8 +73,8 @@ export default {
         //  打开对应的行的文本文件进行两个文本比较
         handleClick(row) {
         const self = this;                      
-        console.log(row.filename);
         var filename = row.filename;
+        console.log(row.filename);
         localStorage.setItem('name_leadermark',row.filename); //  txt文件的名字
 
         this.$router.push('/leadermark');

@@ -28,6 +28,7 @@ var sqlMap = {
       count: 'SELECT COUNT(*) number FROM newsdata',
       set_k: 'UPDATE newsdata SET kvalue = ?',
       get_k: 'SELECT kvalue FROM newsdata',
+      get_username: 'SELECT username FROM newsdata',
     }
   }
   
