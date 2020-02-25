@@ -1,5 +1,6 @@
 const userApi = require('./api/userApi');
 const contentApi = require('./api/contentApi');
+const modifyApi = require('./api/modifyApi');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 // 后端api路由
 app.use('/api/user', userApi);
 app.use('/api/content', contentApi);
+app.use('/api/modify', modifyApi);
 
 // 监听端口
 app.listen(3000);

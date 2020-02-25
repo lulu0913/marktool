@@ -311,7 +311,7 @@ router.post('/leadersave', (req, res) => {
   var newname = leadername + filename;
   var filepath = '../src/assets/save/' + leadername + filename;
   var sql_ins = $sql.finaldata.add;
-  var sql_name = $sql.newsdata.select_name;
+  var sql_name = $sql.finaldata.select_name;
   sql_name += " WHERE newname ='"+ newname +"'";
 
   // 文本的形式写入用户最新保存的标注数据

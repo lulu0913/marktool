@@ -1,25 +1,44 @@
 <template>
-  <div class="mark">
-    <!-- 左边的文本框 -->
-    <div class="left">
-      <!-- 普通用户的标注界面 -->
-      <div class="user_mark_place">
-        <div v-html = 'filecontent' class="text_content" id="test" contenteditable="true" ></div>
-        <div id="allfile" style="display:none"></div>
+<div class="mark">
+  <div class="headblock"><h1>{{filename}}</h1></div>
+  <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false" @close="handleClose(tag)">
+    {{tag}}
+  </el-tag>
+<el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm"></el-input>
+<el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+  <el-container>
+    <!-- 深蓝色的标题区域 -->
+    <el-header>
+      <div class="sel">
+        选择事件类型：
+        <select id="select_1" autocomplete="off" @change="mySelection()">
+          <option value="会见会谈" selected="selected">会见会谈</option>
+          <option value="签署文件">签署文件</option>
+          <option value="设施启用">设施启用</option>
+          <option value="举行活动">举行活动</option>
+        </select>
       </div>
-    </div>
+    </el-header>  
 
-    <!-- 右边的标注工具 -->
-    <div class="right">
-      <el-row>
-        <el-button round>触发词</el-button>
-        <el-button type="primary" id="get" @click="get" round>参与方</el-button>
-        <el-button type="success" @click="time" round>时间</el-button>
-        <el-button type="info" @click="save" round>保存</el-button>
-      </el-row>
-    </div>
-    
-  </div>
+    <el-container>
+      <!-- 内容区 -->
+      <el-aside width="400px">
+        <el-row>
+          <el-button round>触发词</el-button>
+          <el-button type="primary" id="get" @click="get" round>参与方</el-button>
+          <el-button type="success" @click="time" round>时间</el-button>
+          <el-button type="info" @click="save" round>保存</el-button>
+        </el-row>
+      </el-aside>
+      <el-main>
+        <div class="user_mark_place">
+          <div v-html = 'filecontent' class="text_content" id="test" contenteditable="true" ></div>
+          <div id="allfile" style="display:none"></div>
+        </div>
+      </el-main>
+    </el-container>
+  </el-container>
+</div>
 </template>
 
 <script>
@@ -28,6 +47,10 @@ export default {
   data(){
     return{
       filecontent:localStorage.getItem('userfilecontent'),
+      filename: localStorage.getItem('name_usermark'),
+      dynamicTags: ['标签一', '标签二', '标签三'],
+      inputVisible: false,
+      inputValue: '',
     }
   },
   methods:{
@@ -92,6 +115,26 @@ export default {
         para.setAttribute("END",endoffset);  
       }
     },
+    handleClose(tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    },
+
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.dynamicTags.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
+    },
+
     //  保存用户当前的编辑，以及计算编辑之后文件的一致性
     save(){
       const self = this;                      
@@ -185,20 +228,69 @@ export default {
 </script>
 
 <style>
-.body{
-  width : 85%;
-  margin-left: 8%;
-}
-.left{
-  width: 60%;
-  display: inline-block;
-}
-.right{
-  display: inline-block;
-}
-.text_content{
-  width: 500px;
-  height: 150px;
-  text-align: left;
-}
+  .mark{
+    width: 75%;
+    margin-left: 12.5%;
+  }
+
+  .text_content{
+    width: 460px;
+    height: 355px;
+    text-align: left;
+    display: inline-block;
+  }
+
+  .headblock{
+    height: 100px;
+  }
+
+  .el-header, .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
+  
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+  }
+  
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    /* text-align: center; */
+    line-height: 25px;
+  }
+  
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+  
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+  
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
+
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
 </style>

@@ -201,6 +201,18 @@ export default {
           }).then((error) => {
               console.log(error);
           })
+        },
+        save_2(){
+          var filename = this.filename;
+          var leadername = localStorage.getItem('ms_username');
+          var myField = document.getElementById("text_2");
+          var filecontent = myField.innerHTML;
+          var data = {'filename': filename, 'filecontent':filecontent, 'leadername':leadername};
+          this.$axios.post('/api/content/leadersave', data).then((response)=>{
+            console.log(response.data);
+          }).then((error) => {
+              console.log(error);
+          })
         }
     }
 }

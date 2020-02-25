@@ -33,7 +33,7 @@ var sqlMap = {
 
     finaldata:{
       add: 'INSERT INTO finaldata(filename, filepath, leadername, newname, finalmark) values(?,?,?,?,?)',
-      select_name: 'SELECT * FROM newsdata',
+      select_name: 'SELECT * FROM finaldata',
     },
   }
   
