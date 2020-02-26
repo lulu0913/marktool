@@ -159,7 +159,6 @@ export default {
         a.setAttribute("download", '123.xml');
         a.click();
 
-
         console.log(xmldom); 
         }).then((error) => {
             console.log(error);
