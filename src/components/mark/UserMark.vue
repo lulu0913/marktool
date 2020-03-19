@@ -1,11 +1,6 @@
 <template>
 <div class="mark">
   <div class="headblock"><h1>{{filename}}</h1></div>
-  <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false" @close="handleClose(tag)">
-    {{tag}}
-  </el-tag>
-<el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm"></el-input>
-<el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
   <el-container>
     <!-- 深蓝色的标题区域 -->
     <el-header>
@@ -48,9 +43,7 @@ export default {
     return{
       filecontent:localStorage.getItem('userfilecontent'),
       filename: localStorage.getItem('name_usermark'),
-      dynamicTags: ['标签一', '标签二', '标签三'],
-      inputVisible: false,
-      inputValue: '',
+
     }
   },
   methods:{
@@ -63,9 +56,13 @@ export default {
         var endoffset = myrange.endOffset;
         var selectedText = window.getSelection().toString();//  将选区内容转化为字符串存在selectedText变量中
         myrange.deleteContents();// 删除原有的文本
-        var para=document.createElement("span");//  用新建的节点代替
+        var para=document.createElement("div");//  用新建的节点代替
+        var sub=document.createElement("span");//  用新建的节点代替
+        var btn=document.createElement("button");//  用新建的节点代替
         var node=document.createTextNode(selectedText);
-        para.appendChild(node);
+        var val=document.createTextNode("删除");
+        sub.appendChild(node);
+        btn.appendChild(val);
         para.style.color = "blue";
         para.setAttribute("class","get"); // 节点的属性是参与方
         myrange.insertNode(para); 
@@ -114,25 +111,6 @@ export default {
         console.log(para);
         para.setAttribute("END",endoffset);  
       }
-    },
-    handleClose(tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-    },
-
-    showInput() {
-      this.inputVisible = true;
-      this.$nextTick(_ => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
-    },
-
-    handleInputConfirm() {
-      let inputValue = this.inputValue;
-      if (inputValue) {
-        this.dynamicTags.push(inputValue);
-      }
-      this.inputVisible = false;
-      this.inputValue = '';
     },
 
     //  保存用户当前的编辑，以及计算编辑之后文件的一致性
