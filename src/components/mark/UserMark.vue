@@ -124,8 +124,8 @@ export default {
       // console.log(data);
         this.$axios.post('/api/content/usersave', data).then((response)=>{
             console.log('用于检测一致性的文件个数' + response.data);
-            var k = 0;  //和当前节点有交集的节点数
-            var m = 0;  //有交集计算一致性
+            var k;  //和当前节点有交集的节点数
+            var m;  //有交集计算一致性
             var n = 0;  //全文的一致性
             if(response.data == 1)
             {
@@ -143,6 +143,11 @@ export default {
                 var mynode1 = getnode[i];
                 var start1 = mynode1.getAttribute("start");
                 var end1 = mynode1.getAttribute("end");
+                start1 = parseInt(start1);
+                end1 = parseInt(end1);
+                k=0;
+                m=0;
+                console.log("第i次"+i);
                 for(var j=0;j<getnode.length;j++)
                 {
                   if(j!=i)
@@ -150,24 +155,36 @@ export default {
                     var mynode2 = getnode[j];
                     var start2 = mynode2.getAttribute("start");
                     var end2 = mynode2.getAttribute("end");
-                    if(start2<end1)
+                    start2 = parseInt(start2);
+                    end2 = parseInt(end2);
+                    if((start1<=start2)&&(start2<=end1)&&(end1<=end2))
                     {
                       m = m+((end1-start2)/(end2-start1));
+                      console.log(i+'->'+j+'========='+end1,start2,end2,start1+'type1');
                       k++;
                     }
-                    else if(start1<end2)
+                    else if((start2<start1)&&(start1<=end2)&&(end2<=end1))
                     {
                       m = m+((end2-start1)/(end1-start2));
+                      console.log(i+'->'+j+'========='+end2,start1,end1,start2+'type2');
                       k++;
                     }
-                    else if((start1>=start2)&&(end1<=end2))
+                    else if((start2==start1)&&(end2<end1))
+                    {
+                      m = m+((end2-start1)/(end1-start2));
+                      console.log(i+'->'+j+'========='+end2,start1,end1,start2+'type2');
+                      k++;
+                    }
+                    else if((start1>start2)&&(end1<end2))
                     {
                       m = m+((end1-start1)/(end2-start2));
+                      console.log(i+'->'+j+'========='+end1,start1,end2,start2+'type3');
                       k++;
                     }
                     else if((start1<start2)&&(end2<end1))
                     {
                       m = m+((end2-start2)/(end1-start1));
+                      console.log(i+'->'+j+'========='+end2,start2,end1,start1+'type4');
                       k++;
                     }
                   }
@@ -181,6 +198,7 @@ export default {
                   temp[i]=m/k;
                 }
                 n+=temp[i];
+                console.log(i+'+++++++'+temp[i]);
               }
               n = n/getnode.length;
             }
