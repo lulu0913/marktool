@@ -56,15 +56,20 @@ export default {
         var endoffset = myrange.endOffset;
         var selectedText = window.getSelection().toString();//  将选区内容转化为字符串存在selectedText变量中
         myrange.deleteContents();// 删除原有的文本
-        var para=document.createElement("div");//  用新建的节点代替
-        var sub=document.createElement("span");//  用新建的节点代替
-        var btn=document.createElement("button");//  用新建的节点代替
+        // var para=document.createElement("div");//  用新建的节点代替
+        var para=document.createElement("span");//  用新建的节点代替
+        // var btn=document.createElement("button");//  用新建的节点代替
         var node=document.createTextNode(selectedText);
-        var val=document.createTextNode("删除");
-        sub.appendChild(node);
-        btn.appendChild(val);
+        // var val=document.createTextNode("删除");
+        para.appendChild(node);
+        // btn.appendChild(val);
         para.style.color = "blue";
         para.setAttribute("class","get"); // 节点的属性是参与方
+        // para.setAttribute("onclick", "console.log(233)"); 
+        para.addEventListener('click', function(){console.log(2333);
+        var rawtext = node;
+        para.parentElement.removeChild(para);
+        myrange.insertNode(rawtext)})
         myrange.insertNode(para); 
         myrange.setStartAfter(para);
 
@@ -218,6 +223,9 @@ export default {
         }).then((error) => {
             console.log(error);
         })
+    },
+    delet(){
+      console.log("2333");
     }
   }
 }
@@ -288,5 +296,9 @@ export default {
     width: 90px;
     margin-left: 10px;
     vertical-align: bottom;
+  }
+  .get:hover
+  {
+    background-color:yellow;
   }
 </style>
