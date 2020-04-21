@@ -39,6 +39,9 @@
 <script>
 export default {
   name: 'UserMark',
+  mounted:function(){
+    this.delet();
+  },
   data(){
     return{
       filecontent:localStorage.getItem('userfilecontent'),
@@ -226,7 +229,37 @@ export default {
     },
     delet(){
       console.log("2333");
-    }
+      var nodes = document.getElementsByTagName("span");
+      // console.log(nodes[5].className)
+      for(var i=0; i<nodes.length; i++){
+        if(nodes[i].className){
+          nodes[i].addEventListener('click', function(){
+            console.log(2345);
+            console.log(this.innerHTML)
+            var rawtext = document.createTextNode(this.innerHTML);
+            var node;
+            if(this.previousElementSibling){
+              node = this.previousElementSibling.nextElementSibling;
+              this.parentElement.removeChild(node);
+            }
+            else if(this.nextElementSibling){
+              node = this.nextElementSibling.previousElementSibling;
+              this.parentElement.removeChild(node);
+            }
+            else{
+              node = this.parentElement.firstElementChild;
+              this.parentElement.removeChild(node);
+            }
+            // console.log(node);
+            var myrange = window.getSelection().getRangeAt(0);
+            myrange.insertNode(rawtext);
+            // console.log(k)
+            // nodes[i].parentElement.removeChild(para);
+            })
+        }
+      }
+    },
+
   }
 }
 </script>
