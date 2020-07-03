@@ -39,9 +39,9 @@
             <el-button round>触发词</el-button>
           </el-row>
           <el-row>
-            <el-button type="primary" id="people" @click="people" round>签署方</el-button>
-            <el-button type="primary" id="time" @click="time" round>文件</el-button>
-            <el-button type="primary" id="place" @click="place" round>签署时间</el-button>
+            <el-button type="primary" id="people" @click="sign_people" round>签署方</el-button>
+            <el-button type="primary" id="time" @click="sign_paper" round>文件</el-button>
+            <el-button type="primary" id="place" @click="sign_time" round>签署时间</el-button>
             <el-button type="primary" id="place" @click="place" round>签署地点</el-button>
           </el-row>
           <el-row>
