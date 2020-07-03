@@ -13,17 +13,25 @@
           <option value="举行活动">举行活动</option>
         </select>
       </div>
-    </el-header>  
+    </el-header>
 
     <el-container>
       <!-- 内容区 -->
       <el-aside width="400px">
-        <el-row>
-          <el-button round>触发词</el-button>
-          <el-button type="primary" id="get" @click="get" round>参与方</el-button>
-          <el-button type="success" @click="time" round>时间</el-button>
-          <el-button type="info" @click="save" round>保存</el-button>
-        </el-row>
+        <div class="hjht">
+          <el-row>
+            <el-button round>触发词</el-button>
+          </el-row>
+          <el-row>
+            <el-button type="primary" id="people" @click="people" round>参与方</el-button>
+            <el-button type="primary" id="time" @click="time" round>时间</el-button>
+            <el-button type="primary" id="place" @click="place" round>地点</el-button>
+          </el-row>
+          <el-row>
+            <el-button type="success" @click="save" round>保存</el-button>
+          </el-row>
+        </div>
+
       </el-aside>
       <el-main>
         <div class="user_mark_place">
@@ -51,45 +59,48 @@ export default {
   },
   methods:{
     //  标注参与方
-    get(){
-        var myField = document.getElementById("test");
-        var myrange = window.getSelection().getRangeAt(0);//  找到选区
-        console.log(window.getSelection().getRangeAt(0));
-        var startoffset = myrange.startOffset;
-        var endoffset = myrange.endOffset;
-        var selectedText = window.getSelection().toString();//  将选区内容转化为字符串存在selectedText变量中
-        myrange.deleteContents();// 删除原有的文本
-        // var para=document.createElement("div");//  用新建的节点代替
-        var para=document.createElement("span");//  用新建的节点代替
-        // var btn=document.createElement("button");//  用新建的节点代替
-        var node=document.createTextNode(selectedText);
-        // var val=document.createTextNode("删除");
-        para.appendChild(node);
-        // btn.appendChild(val);
-        para.style.color = "blue";
-        para.setAttribute("class","get"); // 节点的属性是参与方
-        // para.setAttribute("onclick", "console.log(233)"); 
-        para.addEventListener('click', function(){console.log(2333);
+    people(){
+      var myField = document.getElementById("test");
+      var myrange = window.getSelection().getRangeAt(0);//  找到选区
+      // console.log(window.getSelection().getRangeAt(0));
+      var startoffset = myrange.startOffset;
+      var endoffset = myrange.endOffset;
+      var selectedText = window.getSelection().toString();//  将选区内容转化为字符串存在selectedText变量中
+      myrange.deleteContents();// 删除原有的文本
+      // var para=document.createElement("div");//  用新建的节点代替
+      var para=document.createElement("span");//  用新建的节点代替
+      // var btn=document.createElement("button");//  用新建的节点代替
+      var node=document.createTextNode(selectedText);
+      // var val=document.createTextNode("删除");
+      para.appendChild(node);
+      // btn.appendChild(val);
+      para.style.color = "blue";
+      para.setAttribute("class","people"); // 节点的属性是参与方
+      // para.setAttribute("onclick", "console.log(233)"); 
+      para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
         para.parentElement.removeChild(para);
-        myrange.insertNode(rawtext)})
-        myrange.insertNode(para); 
-        myrange.setStartAfter(para);
+        myrange.insertNode(rawtext)
+      })
 
-        //  获取选区内容的起止位置
-        var ele = para.previousElementSibling;
-        if(ele){
-          startoffset += parseInt(ele.getAttribute("END"));
-          endoffset += parseInt(ele.getAttribute("END"));
-          para.setAttribute("START",startoffset);
-          para.setAttribute("END",endoffset);
-          console.log(para);
-        }else{
-          para.setAttribute("START",startoffset);
-          console.log(para);
-          para.setAttribute("END",endoffset);  
-        }
+      myrange.insertNode(para); 
+      myrange.setStartAfter(para);
+
+      //  获取选区内容的起止位置
+      var ele = para.previousElementSibling;
+      if(ele){
+        startoffset += parseInt(ele.getAttribute("END"));
+        endoffset += parseInt(ele.getAttribute("END"));
+        para.setAttribute("START",startoffset);
+        para.setAttribute("END",endoffset);
+        console.log(para);
+      }else{
+        para.setAttribute("START",startoffset);
+        console.log(para);
+        para.setAttribute("END",endoffset);  
+      }
     },
+
     time(){
       var myField = document.getElementById("test");
       var myrange = window.getSelection().getRangeAt(0);//  找到选区
@@ -102,7 +113,52 @@ export default {
       var node=document.createTextNode(selectedText);
       para.appendChild(node);
       para.style.color = "green";
-      para.setAttribute("class","time"); //节点属性是参与时间
+      para.setAttribute("class","time");
+      // 添加删除的监听事件
+      para.addEventListener('click', function(){console.log(2333);
+        var rawtext = node;
+        para.parentElement.removeChild(para);
+        myrange.insertNode(rawtext)
+      })
+
+      myrange.insertNode(para); 
+      myrange.setStartAfter(para);
+
+      //  获取选区内容的起止位置
+      var ele = para.previousElementSibling;
+      if(ele){
+        startoffset += parseInt(ele.getAttribute("END"));
+        endoffset += parseInt(ele.getAttribute("END"));
+        para.setAttribute("START",startoffset);
+        para.setAttribute("END",endoffset);
+        console.log(para);
+      }else{
+        para.setAttribute("START",startoffset);
+        console.log(para);
+        para.setAttribute("END",endoffset);  
+      }
+    },
+
+    place(){
+      var myField = document.getElementById("test");
+      var myrange = window.getSelection().getRangeAt(0);//  找到选区
+      console.log(window.getSelection().getRangeAt(0));
+      var startoffset = myrange.startOffset;
+      var endoffset = myrange.endOffset;
+      var selectedText = window.getSelection().toString();//  将选区内容转化为字符串存在selectedText变量中
+      myrange.deleteContents();// 删除原有的文本
+      var para=document.createElement("span");//  用新建的节点代替
+      var node=document.createTextNode(selectedText);
+      para.appendChild(node);
+      para.style.color = "red";
+      para.setAttribute("class","place");
+      // 添加删除的监听事件
+      para.addEventListener('click', function(){
+        var rawtext = node;
+        para.parentElement.removeChild(para);
+        myrange.insertNode(rawtext)
+      })
+
       myrange.insertNode(para); 
       myrange.setStartAfter(para);
 
@@ -301,6 +357,16 @@ export default {
     /* text-align: center; */
     line-height: 25px;
   }
+
+  .el-row{
+    height: 70px;
+  }
+
+  .el-button{
+    float: left;
+    margin-left: 20px;
+    margin-top: 30px;
+  }
   
   body > .el-container {
     margin-bottom: 40px;
@@ -325,12 +391,21 @@ export default {
     padding-top: 0;
     padding-bottom: 0;
   }
+
   .input-new-tag {
     width: 90px;
     margin-left: 10px;
     vertical-align: bottom;
   }
-  .get:hover
+  .people:hover
+  {
+    background-color:yellow;
+  }
+  .time:hover
+  {
+    background-color:yellow;
+  }
+  .place:hover
   {
     background-color:yellow;
   }
