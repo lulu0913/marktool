@@ -6,11 +6,11 @@
     <el-header>
       <div class="sel">
         选择事件类型：
-        <select id="select_1" autocomplete="off" @change="mySelection()">
-          <option value="会见会谈" selected="selected">会见会谈</option>
-          <option value="签署文件">签署文件</option>
-          <option value="设施启用">设施启用</option>
-          <option value="举行活动">举行活动</option>
+        <select id="select_1" autocomplete="off" @change="mySelection">
+          <option value="hjht" selected="selected">会见会谈</option>
+          <option value="qswj">签署文件</option>
+          <option value="ssqy">设施启用</option>
+          <option value="jxhd">举行活动</option>
         </select>
       </div>
     </el-header>
@@ -18,7 +18,8 @@
     <el-container>
       <!-- 内容区 -->
       <el-aside width="400px">
-        <div class="hjht">
+        <!-- 会见会谈按钮组 -->
+        <div id="hjht" style="display:inline">
           <el-row>
             <el-button round>触发词</el-button>
           </el-row>
@@ -31,6 +32,54 @@
             <el-button type="success" @click="save" round>保存</el-button>
           </el-row>
         </div>
+
+        <!-- 签署文件按钮组 -->
+        <div id="qswj" style="display:none">
+          <el-row>
+            <el-button round>触发词</el-button>
+          </el-row>
+          <el-row>
+            <el-button type="primary" id="people" @click="people" round>签署方</el-button>
+            <el-button type="primary" id="time" @click="time" round>文件</el-button>
+            <el-button type="primary" id="place" @click="place" round>签署时间</el-button>
+            <el-button type="primary" id="place" @click="place" round>签署地点</el-button>
+          </el-row>
+          <el-row>
+            <el-button type="success" @click="save" round>保存</el-button>
+          </el-row>
+        </div>
+
+        <!-- 设施启用按钮组 -->
+        <div id="ssqy" style="display:none">
+          <el-row>
+            <el-button round>触发词</el-button>
+          </el-row>
+          <el-row>
+            <el-button type="primary" id="people" @click="people" round>设施修建方</el-button>
+            <el-button type="primary" id="time" @click="time" round>设施名称</el-button>
+            <el-button type="primary" id="place" @click="place" round>启用时间</el-button>
+            <el-button type="primary" id="place" @click="place" round>设施地点</el-button>
+          </el-row>
+          <el-row>
+            <el-button type="success" @click="save" round>保存</el-button>
+          </el-row>
+        </div>   
+
+        <!-- 举行活动按钮组-->
+        <div id="jxhd" style="display:none">
+          <el-row>
+            <el-button round>触发词</el-button>
+          </el-row>
+          <el-row>
+            <el-button type="primary" id="people" @click="people" round>举办方</el-button>
+            <el-button type="primary" id="time" @click="time" round>活动名称</el-button>
+            <el-button type="primary" id="place" @click="place" round>活动时间</el-button>
+            <el-button type="primary" id="place" @click="place" round>活动地点</el-button>
+          </el-row>
+          <el-row>
+            <el-button type="success" @click="save" round>保存</el-button>
+          </el-row>
+        </div>        
 
       </el-aside>
       <el-main>
@@ -174,6 +223,39 @@ export default {
         para.setAttribute("START",startoffset);
         console.log(para);
         para.setAttribute("END",endoffset);  
+      }
+    },
+
+    // 用来控制不同时间对应于不同的按钮
+    mySelection(){
+      var myselect = document.getElementById("select_1");
+      var index=myselect.selectedIndex;
+      var myevent = myselect.options[index].value;
+      console.log(myevent);
+      if(myevent=='hjht'){
+        // console.log(1)
+        document.getElementById("hjht").style.display="inline";
+        document.getElementById("qswj").style.display="none";
+        document.getElementById("ssqy").style.display="none";
+        document.getElementById("jxhd").style.display="none";
+      }
+      if(myevent=='qswj'){
+        document.getElementById("hjht").style.display="none";
+        document.getElementById("qswj").style.display="inline";
+        document.getElementById("ssqy").style.display="none";
+        document.getElementById("jxhd").style.display="none";
+      }
+      if(myevent=='ssqy'){
+        document.getElementById("hjht").style.display="none";
+        document.getElementById("qswj").style.display="none";
+        document.getElementById("ssqy").style.display="inline";
+        document.getElementById("jxhd").style.display="none";
+      }
+      if(myevent=='jxhd'){
+        document.getElementById("hjht").style.display="none";
+        document.getElementById("qswj").style.display="none";
+        document.getElementById("ssqy").style.display="none";
+        document.getElementById("jxhd").style.display="inline";
       }
     },
 
@@ -348,7 +430,7 @@ export default {
     background-color: #D3DCE6;
     color: #333;
     text-align: center;
-    line-height: 200px;
+    /* line-height: 200px; */
   }
   
   .el-main {
@@ -359,13 +441,12 @@ export default {
   }
 
   .el-row{
-    height: 70px;
+    padding: 10px;
   }
 
   .el-button{
     float: left;
-    margin-left: 20px;
-    margin-top: 30px;
+    margin: 3px;
   }
   
   body > .el-container {
