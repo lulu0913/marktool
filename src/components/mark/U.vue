@@ -132,7 +132,7 @@ export default {
         localStorage.setItem('filetxt',response.data);
         this.filetxt = response.data;
 
-        var getnode = document.getElementsByClassName("get");
+        var getnode = document.getElementsByClassName("people");
         var xmldom = document.implementation.createDocument("", "root", null); // 创建xml对象
         // console.log(xmldom.documentElement.tagName); //"root"
         for(var i=0;i<getnode.length;i++)

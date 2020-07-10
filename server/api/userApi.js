@@ -45,15 +45,10 @@ router.post('/findUser', (req, res) => {
     var sql_name = $sql.user.select_name;
     console.log(sql_name);
     var cc = sql_name;
-    // var sql_password = $sql.user.select_password;
     var params = req.body;
-    //console.log(params);
     if (params.username) {
         sql_name += " where username ='"+ params.username +"'";
     }
-    // var keywords = JSON.parse(Object.keys(params)[0]);
-
-    //console.log(sql_name);
     conn.query(sql_name, params.username, function(err, result) {
         if (err) {
             console.log(err);
