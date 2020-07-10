@@ -50,6 +50,12 @@ export default {
         password: password
       },{}).then((response) => {
         console.log(response);
+        if(response.data==-1){
+          alert('用户名已存在');
+        }
+        else{
+          alert('注册成功');
+        }
         this.$router.push('/User');
       })
       }
