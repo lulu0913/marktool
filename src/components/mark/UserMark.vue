@@ -125,6 +125,7 @@ export default {
       // btn.appendChild(val);
       para.style.color = "blue";
       para.setAttribute("class","people"); // 节点的属性是参与方
+      para.setAttribute("title","参与方"); // 节点的属性是参与方
       // para.setAttribute("onclick", "console.log(233)"); 
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -163,6 +164,7 @@ export default {
       para.appendChild(node);
       para.style.color = "green";
       para.setAttribute("class","time");
+      para.setAttribute("title","时间");
       // 添加删除的监听事件
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -201,6 +203,7 @@ export default {
       para.appendChild(node);
       para.style.color = "red";
       para.setAttribute("class","place");
+      para.setAttribute("title","地点");
       // 添加删除的监听事件
       para.addEventListener('click', function(){
         var rawtext = node;
@@ -243,6 +246,7 @@ export default {
       // btn.appendChild(val);
       para.style.color = "orange";
       para.setAttribute("class","trigger1"); // 节点的属性是参与方
+      para.setAttribute("title","触发词");
       // para.setAttribute("onclick", "console.log(233)"); 
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -286,6 +290,7 @@ export default {
       // btn.appendChild(val);
       para.style.color = "blue";
       para.setAttribute("class","sign_people"); // 节点的属性是参与方
+      para.setAttribute("title","签署方");
       // para.setAttribute("onclick", "console.log(233)"); 
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -324,6 +329,7 @@ export default {
       para.appendChild(node);
       para.style.color = "green";
       para.setAttribute("class","sign_paper");
+      para.setAttribute("title","文件");
       // 添加删除的监听事件
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -362,6 +368,7 @@ export default {
       para.appendChild(node);
       para.style.color = "red";
       para.setAttribute("class","sign_time");
+      para.setAttribute("title","签署时间");
       // 添加删除的监听事件
       para.addEventListener('click', function(){
         var rawtext = node;
@@ -400,6 +407,7 @@ export default {
       para.appendChild(node);
       para.style.color = "purple";
       para.setAttribute("class","sign_place");
+      para.setAttribute("title","签署地点");
       // 添加删除的监听事件
       para.addEventListener('click', function(){
         var rawtext = node;
@@ -442,6 +450,7 @@ export default {
       // btn.appendChild(val);
       para.style.color = "orange";
       para.setAttribute("class","trigger2"); // 节点的属性是参与方
+      para.setAttribute("title","触发词");
       // para.setAttribute("onclick", "console.log(233)"); 
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -485,6 +494,7 @@ export default {
       // btn.appendChild(val);
       para.style.color = "blue";
       para.setAttribute("class","build_people"); // 节点的属性是参与方
+      para.setAttribute("title","设施修建方");
       // para.setAttribute("onclick", "console.log(233)"); 
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -523,6 +533,7 @@ export default {
       para.appendChild(node);
       para.style.color = "green";
       para.setAttribute("class","build_name");
+      para.setAttribute("title","设施名称");
       // 添加删除的监听事件
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -561,6 +572,7 @@ export default {
       para.appendChild(node);
       para.style.color = "red";
       para.setAttribute("class","build_time");
+      para.setAttribute("title","启用时间");
       // 添加删除的监听事件
       para.addEventListener('click', function(){
         var rawtext = node;
@@ -599,6 +611,7 @@ export default {
       para.appendChild(node);
       para.style.color = "purple";
       para.setAttribute("class","build_place");
+      para.setAttribute("title","启用地点");
       // 添加删除的监听事件
       para.addEventListener('click', function(){
         var rawtext = node;
@@ -641,6 +654,7 @@ export default {
       // btn.appendChild(val);
       para.style.color = "orange";
       para.setAttribute("class","trigger3"); // 节点的属性是参与方
+      para.setAttribute("title","触发词");
       // para.setAttribute("onclick", "console.log(233)"); 
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -684,6 +698,7 @@ export default {
       // btn.appendChild(val);
       para.style.color = "blue";
       para.setAttribute("class","activity_people"); // 节点的属性是参与方
+      para.setAttribute("title","举办方");
       // para.setAttribute("onclick", "console.log(233)"); 
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -722,6 +737,7 @@ export default {
       para.appendChild(node);
       para.style.color = "green";
       para.setAttribute("class","activity_name");
+      para.setAttribute("title","活动名称");
       // 添加删除的监听事件
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
@@ -760,6 +776,7 @@ export default {
       para.appendChild(node);
       para.style.color = "red";
       para.setAttribute("class","activity_time");
+      para.setAttribute("title","活动时间");
       // 添加删除的监听事件
       para.addEventListener('click', function(){
         var rawtext = node;
@@ -798,6 +815,7 @@ export default {
       para.appendChild(node);
       para.style.color = "purple";
       para.setAttribute("class","activity_place");
+      para.setAttribute("title","活动地点");
       // 添加删除的监听事件
       para.addEventListener('click', function(){
         var rawtext = node;
@@ -840,6 +858,7 @@ export default {
       // btn.appendChild(val);
       para.style.color = "orange";
       para.setAttribute("class","trigger4"); // 节点的属性是参与方
+      para.setAttribute("title","触发词");
       // para.setAttribute("onclick", "console.log(233)"); 
       para.addEventListener('click', function(){console.log(2333);
         var rawtext = node;
