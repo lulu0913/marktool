@@ -97,9 +97,10 @@
 <script>
 export default {
     name: 'LeaderMark',
-    mounted: function(){
+    created: function(){
         this.view();
     },
+
     data(){
         return{
             filename: localStorage.getItem('name_leadermark'),
@@ -126,6 +127,7 @@ export default {
             }).then((error) => {
                 console.log(error);
             })
+            console.log('页面加载前')
         },
 
         // 选择要查看的用户，并显示出该用户的标记
@@ -169,6 +171,7 @@ export default {
             console.log(response.data);
             that.filecontent_2 = response.data;
             that.filecontent_1 = response.data;
+
           }).then((error) => {
               console.log(error);
           })
@@ -228,7 +231,41 @@ export default {
             document.getElementById("ssqy").style.display="none";
             document.getElementById("jxhd").style.display="inline-block";
           }
+        },
+
+        myclick(that){
+          console.log('页面加载之后')
+          console.log('wenbenneirong', that.filecontent_1)
+          var nodes = document.getElementById("text_1").getElementsByTagName("span");
+          // console.log(nodes[5].className)
+          for(var i=0; i<nodes.length; i++){
+          if(nodes[i].className){
+            nodes[i].addEventListener('click', function(){
+              console.log(2345);
+              console.log(that.innerHTML)
+              var rawtext = document.createTextNode(that.innerHTML);
+              var node;
+              if(that.previousElementSibling){
+                node = that.previousElementSibling.nextElementSibling;
+                that.parentElement.removeChild(node);
+              }
+              else if(that.nextElementSibling){
+                node = that.nextElementSibling.previousElementSibling;
+                that.parentElement.removeChild(node);
+              }
+              else{
+                node = that.parentElement.firstElementChild;
+                that.parentElement.removeChild(node);
+              }
+              // console.log(node);
+              var myrange = window.getSelection().getRangeAt(0);
+              myrange.insertNode(rawtext);
+              // console.log(k)
+              // nodes[i].parentElement.removeChild(para);
+              })
+          }
         }
+      }
     }
 }
 </script>
@@ -300,5 +337,21 @@ export default {
   .sel{
     width: 450px;
     display: inline-block;
+  }
+  .people:hover, .time:hover, .place:hover, .trigger1:hover, .trigger2:hover, .trigger3:hover, .trigger4:hover
+  {
+    background-color:yellow;
+  }
+  .sign_time:hover, .sign_people:hover, .sign_paper:hover, .sign_place:hover
+  {
+    background-color:yellow;
+  }
+  .build_people:hover, .build_name:hover, .build_time:hover, .build_place:hover
+  {
+    background-color:yellow;
+  }
+  .activity_people:hover, .activity_name:hover, .activity_time:hover, .activity_place:hover
+  {
+    background-color:yellow;
   }
 </style>

@@ -17,6 +17,8 @@ var sqlMap = {
     news: {
       add: 'INSERT INTO news(filename ,filepath) values(?,?)',
       select_name: 'SELECT * from news', 
+      markfinal: 'UPDATE news SET finalmark = ?',
+      fdfinal: 'SELECT finalmark from news'
     },
 
     //用户对当前标注的文件进行保存

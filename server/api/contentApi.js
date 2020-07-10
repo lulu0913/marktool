@@ -253,18 +253,46 @@ router.post('/leadermark', (req, res) => {
   var params = req.body;
   var filename = params.filename;
   var sql_getuername = $sql.newsdata.get_username + " WHERE filename ='"+ filename +"'";
-  conn.query(sql_getuername, function(err, result) {
-    if (err) {
-        console.log(err);
+  var fdfinal = $sql.news.fdfinal + " WHERE filename = '" + filename + "'"
+  async.waterfall([
+    function(callback){
+      conn.query(sql_getuername, function(err, result) {
+        if (err) {
+            console.log(err);
+        }
+        else
+        {
+          result = JSON.stringify(result); // 将查询结果前面的rowdatapacket去掉
+          result = JSON.parse(result);
+          console.log(result);
+          callback(null,result);
+        }
+      })
+    },
+
+    function(n, callback){
+      conn.query(fdfinal, function(err, result) {
+        if (err) {
+          console.log(err);
+        }else{
+          result = JSON.stringify(result); // 将查询结果前面的rowdatapacket去掉
+          result = JSON.parse(result);
+          if(result[0].finalmark)
+          {
+            // console.log(result[0].finalmark)
+            n.push({username: '最终标注'})
+          }
+          console.log(result[0]);
+          console.log(n);
+          jsonWrite(res, n);
+        }
+      })
     }
-    else
-    {
-      result = JSON.stringify(result); // 将查询结果前面的rowdatapacket去掉
-      result = JSON.parse(result);
-      console.log(result);
-      jsonWrite(res,result);
-    }
+  ], function(err, results){
+      //如果有error则执行此处函数
+      console.log('异常处理');
   })
+
 
 });
 
@@ -276,6 +304,10 @@ router.post('/comparison', (req, res) => {
   var newname = username + filename;
   var sql_name = $sql.newsdata.select_name;
   sql_name += " WHERE newname ='"+ newname +"'";
+  if(username=='最终标注')
+  {
+    sql_name = $sql.finaldata.select_name +" WHERE filename ='"+ filename +"'";
+  }
   conn.query(sql_name, function(err, result) {
     if (err) {
         console.log(err);
@@ -313,6 +345,8 @@ router.post('/leadersave', (req, res) => {
   var sql_ins = $sql.finaldata.add;
   var sql_name = $sql.finaldata.select_name;
   sql_name += " WHERE newname ='"+ newname +"'";
+  var markfinal = $sql.news.markfinal;
+  markfinal += " WHERE filename ='"+ filename +"'"
 
   // 文本的形式写入用户最新保存的标注数据
   // 如果文件不存在就创建一个
@@ -334,6 +368,15 @@ router.post('/leadersave', (req, res) => {
             callback(null,result);
           }
         }) //如果有error异常处理，否则向下一个函数传递参数 result
+    },
+    function(n, callback){
+      conn.query(markfinal, 1, function(err, result) {
+        if (err) {
+          console.log(err);
+        }else{
+          callback(null,n);
+        }
+      }) 
     },
     function(n, callback){ //接受参数result
         if(n.length == 0){  //首次编辑，保存新文件名和路径

@@ -791,38 +791,6 @@ Vue.prototype.trigger4 = function(){
   }
 },
 
-// 用来控制不同时间对应于不同的按钮
-Vue.prototype.mySelection = function(){
-  var myselect = document.getElementById("select_1");
-  var index=myselect.selectedIndex;
-  var myevent = myselect.options[index].value;
-  console.log(myevent);
-  if(myevent=='hjht'){
-    // console.log(1)
-    document.getElementById("hjht").style.display="inline";
-    document.getElementById("qswj").style.display="none";
-    document.getElementById("ssqy").style.display="none";
-    document.getElementById("jxhd").style.display="none";
-  }
-  if(myevent=='qswj'){
-    document.getElementById("hjht").style.display="none";
-    document.getElementById("qswj").style.display="inline";
-    document.getElementById("ssqy").style.display="none";
-    document.getElementById("jxhd").style.display="none";
-  }
-  if(myevent=='ssqy'){
-    document.getElementById("hjht").style.display="none";
-    document.getElementById("qswj").style.display="none";
-    document.getElementById("ssqy").style.display="inline";
-    document.getElementById("jxhd").style.display="none";
-  }
-  if(myevent=='jxhd'){
-    document.getElementById("hjht").style.display="none";
-    document.getElementById("qswj").style.display="none";
-    document.getElementById("ssqy").style.display="none";
-    document.getElementById("jxhd").style.display="inline";
-  }
-},
 
 /* eslint-disable no-new */
 new Vue({
