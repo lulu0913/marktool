@@ -57,6 +57,9 @@
 import axios from 'axios'
 export default {
     name: 'L',
+    mounted: function(){
+      this.panduan();
+    },
     data () {
       const item = {
         date: '2016-05-02',
@@ -73,6 +76,7 @@ export default {
           tableData: []
       }
     },
+
     methods: {
         // post文件上传
         getFile(event){
@@ -105,6 +109,19 @@ export default {
         goMarked(){
           this.$router.push('/L/datamarked');
         },
+        panduan(){
+          var myname = localStorage.getItem('ms_username');
+          console.log('怎样才有东西显示')
+          this.$axios.post('/api/modify/pd', {'myname': myname}).then((response)=>{
+            console.log(response);
+            if(response.data==-1){
+              alert('请先登录');
+              this.$router.push('/User');
+            }
+            }).then((error) => {
+                console.log(error);
+            })
+        }
     },
 }
 </script>

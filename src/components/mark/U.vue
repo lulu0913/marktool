@@ -63,6 +63,8 @@ export default {
   name: 'U',
   mounted :function() {
     this.usershowdata();
+    this.panduan();
+
   },
   data () {
     const item = {
@@ -170,6 +172,19 @@ export default {
       a.click();
 
     },
+    panduan(){
+      var myname = localStorage.getItem('ms_username');
+      // console.log('怎样才有东西显示')
+      this.$axios.post('/api/modify/pd1', {'myname': myname}).then((response)=>{
+        console.log(response);
+        if(response.data==-1){
+          alert('请先登录');
+          this.$router.push('/User');
+        }
+        }).then((error) => {
+            console.log(error);
+        })
+    }
   },  
 }
 </script>

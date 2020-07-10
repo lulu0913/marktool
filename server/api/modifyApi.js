@@ -66,5 +66,45 @@ router.post('/getfinal', (req, res) => {
     })
 });
 
+//  用户组长界面判断
+router.post('/pd', (req, res) => {
+  var sql_name = $sql.leader.select_name;
+  // console.log(sql_name);
+  var params = req.body;
+  sql_name += " where name ='"+ params.myname +"'";
+  conn.query(sql_name, function(err, result) {
+      if (err) {
+        console.log(err);
+      }
+      console.log(result);
+      if (!result[0]) {
+        console.log('nonono')  //查询不出username，data 返回-1
+        res.send('-1');
+      } 
+      else {
+          jsonWrite(res, 1);
+      }
+  })
+});
 
+//  普通用户界面判断
+router.post('/pd1', (req, res) => {
+  var sql_name = $sql.user.select_name;
+  // console.log(sql_name);
+  var params = req.body;
+  sql_name += " where username ='"+ params.myname +"'";
+  conn.query(sql_name, function(err, result) {
+      if (err) {
+        console.log(err);
+      }
+      console.log(result);
+      if (!result[0]) {
+        console.log('nonono')  //查询不出username，data 返回-1
+        res.send('-1');
+      } 
+      else {
+          jsonWrite(res, 1);
+      }
+  })
+});
 module.exports = router;
