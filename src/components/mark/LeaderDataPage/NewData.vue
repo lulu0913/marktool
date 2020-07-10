@@ -112,25 +112,37 @@ export default {
 
         },
         // 创建并下载xml文件
-        xmlClick(row) {
+        async xmlClick(row) {
           console.log(row.filename);
           let filename = row.filename;
           let username = localStorage.getItem('ms_username'); 
-
+          var flag = 0;
           var data = {'filename': filename, 'username': username}
-          this.$axios.post('/api/modify/getfinal', data).then((response)=>{
+          await this.$axios.post('/api/modify/getfinal', data).then((response)=>{
             console.log(response.data);// 请求到的用户标注过的文本
 
             if((response.data)==0)
             {
               alert('用户组长还没有确定最终标注，请先确定最终标注！');
+              flag = 0;
             }
             else
             {
               localStorage.setItem('filetxt',response.data);
               this.filetxt = response.data;
+              flag = 1;
+            }
+ 
+            }).then((error) => {
+                console.log(error);
+            })
 
-              var getnode = document.getElementsByClassName("get");
+          if(flag)
+          {
+            var allclass = ['trigger1', 'trigger2', 'trigger3', 'trigger4', 'people', 'time', 'place', 'sign_people', 'sign_paper', 'sign_time', 'sign_place', 'build_people', 'build_name', 'build_time', 'build_place', 'activity_people', 'activity_name', 'activity_time', 'activity_place'];
+            for (var i=0; i<allclass.length; i++)
+            {           
+              var getnode = document.getElementsByClassName(allclass[i]);
               var xmldom = document.implementation.createDocument("", "root", null); // 创建xml对象
               // console.log(xmldom.documentElement.tagName); //"root"
               for(var i=0;i<getnode.length;i++)
@@ -145,25 +157,20 @@ export default {
                 child.setAttribute("END", end);
                 child.setAttribute("ROLE", "参与方");
               }
-
-              var serializer = new XMLSerializer();
-              var xml = serializer.serializeToString(xmldom);// 将xml解析为dom
-              console.log(xml);
-
-              let a = document.createElement('a');
-              let blob = new Blob([xml]); 
-              let objectUrl = URL.createObjectURL(blob);
-              a.setAttribute("href",objectUrl);
-              a.setAttribute("download", '123.xml');
-              a.click();
-
-
-              console.log(xmldom);
             }
- 
-            }).then((error) => {
-                console.log(error);
-            })
+
+            var serializer = new XMLSerializer();
+            var xml = serializer.serializeToString(xmldom);// 将xml解析为dom
+            console.log(xml);
+            filename = filename.substr(0, filename.length - 3);
+            filename += 'xml';
+            let a = document.createElement('a');
+            let blob = new Blob([xml]); 
+            let objectUrl = URL.createObjectURL(blob);
+            a.setAttribute("href",objectUrl);
+            a.setAttribute("download", filename);
+            a.click();
+          }
         },
     }
 }

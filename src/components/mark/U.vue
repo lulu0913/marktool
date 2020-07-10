@@ -160,6 +160,8 @@ export default {
       let a = document.createElement('a');
       let blob = new Blob([xml]); 
       let objectUrl = URL.createObjectURL(blob);
+      filename = filename.substr(0, filename.length - 3);
+      filename += 'xml';
       a.setAttribute("href",objectUrl);
       a.setAttribute("download", filename);
       a.click();
