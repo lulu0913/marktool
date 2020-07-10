@@ -910,86 +910,107 @@ export default {
         this.$axios.post('/api/content/usersave', data).then((response)=>{
             console.log('用于检测一致性的文件个数' + response.data);
             var k;  //和当前节点有交集的节点数
+            var ct; //有标注的类别数
             var m;  //有交集计算一致性
-            var n = 0;  //全文的一致性
+            var finaln = 0; //全文的一致性
             if(response.data == 1)
             {
-              n = 1;
+              finaln = 1;
             }
             else
             {
               var allfile = response.data;
               document.getElementById("allfile").innerHTML = allfile;
+              var mykvalue = new Array(19);
+              var allclass = ['trigger1', 'trigger2', 'trigger3', 'trigger4', 'people', 'time', 'place', 'sign_people', 'sign_paper', 'sign_time', 'sign_place', 'build_people', 'build_name', 'build_time', 'build_place', 'activity_people', 'activity_name', 'activity_time', 'activity_place'];
+              var myclass;
+              ct = 0;
               // 一致性检测
-              var getnode = document.getElementById("allfile").getElementsByClassName("get");
-              var temp = new Array();
-              for(var i=0;i<getnode.length;i++)
+              for (myclass in allclass)
               {
-                var mynode1 = getnode[i];
-                var start1 = mynode1.getAttribute("start");
-                var end1 = mynode1.getAttribute("end");
-                start1 = parseInt(start1);
-                end1 = parseInt(end1);
-                k=0;
-                m=0;
-                console.log("第i次"+i);
-                for(var j=0;j<getnode.length;j++)
+                // console.log(allclass[myclass])
+                var getnode = document.getElementById("allfile").getElementsByClassName(allclass[myclass]);
+                var temp = new Array();
+                var n = 0;  //类内的一致性
+                for(var i=0;i<getnode.length;i++)
                 {
-                  if(j!=i)
+                  var mynode1 = getnode[i];
+                  var start1 = mynode1.getAttribute("start");
+                  var end1 = mynode1.getAttribute("end");
+                  start1 = parseInt(start1);
+                  end1 = parseInt(end1);
+                  k=0;
+                  m=0;
+                  console.log("第i次"+i);
+                  for(var j=0;j<getnode.length;j++)
                   {
-                    var mynode2 = getnode[j];
-                    var start2 = mynode2.getAttribute("start");
-                    var end2 = mynode2.getAttribute("end");
-                    start2 = parseInt(start2);
-                    end2 = parseInt(end2);
-                    if((start1<=start2)&&(start2<=end1)&&(end1<=end2))
+                    if(j!=i)
                     {
-                      m = m+((end1-start2)/(end2-start1));
-                      console.log(i+'->'+j+'========='+end1,start2,end2,start1+'type1');
-                      k++;
-                    }
-                    else if((start2<start1)&&(start1<=end2)&&(end2<=end1))
-                    {
-                      m = m+((end2-start1)/(end1-start2));
-                      console.log(i+'->'+j+'========='+end2,start1,end1,start2+'type2');
-                      k++;
-                    }
-                    else if((start2==start1)&&(end2<end1))
-                    {
-                      m = m+((end2-start1)/(end1-start2));
-                      console.log(i+'->'+j+'========='+end2,start1,end1,start2+'type2');
-                      k++;
-                    }
-                    else if((start1>start2)&&(end1<end2))
-                    {
-                      m = m+((end1-start1)/(end2-start2));
-                      console.log(i+'->'+j+'========='+end1,start1,end2,start2+'type3');
-                      k++;
-                    }
-                    else if((start1<start2)&&(end2<end1))
-                    {
-                      m = m+((end2-start2)/(end1-start1));
-                      console.log(i+'->'+j+'========='+end2,start2,end1,start1+'type4');
-                      k++;
+                      var mynode2 = getnode[j];
+                      var start2 = mynode2.getAttribute("start");
+                      var end2 = mynode2.getAttribute("end");
+                      start2 = parseInt(start2);
+                      end2 = parseInt(end2);
+                      if((start1<=start2)&&(start2<=end1)&&(end1<=end2))
+                      {
+                        m = m+((end1-start2)/(end2-start1));
+                        console.log(i+'->'+j+'=========',end1,start2,end2,start1,'type1');
+                        k++;
+                      }
+                      else if((start2<start1)&&(start1<=end2)&&(end2<=end1))
+                      {
+                        m = m+((end2-start1)/(end1-start2));
+                        console.log(i+'->'+j+'========='+end2,start1,end1,start2+'type2');
+                        k++;
+                      }
+                      else if((start2==start1)&&(end2<end1))
+                      {
+                        m = m+((end2-start1)/(end1-start2));
+                        console.log(i+'->'+j+'========='+end2,start1,end1,start2+'type2');
+                        k++;
+                      }
+                      else if((start1>start2)&&(end1<end2))
+                      {
+                        m = m+((end1-start1)/(end2-start2));
+                        console.log(i+'->'+j+'========='+end1,start1,end2,start2+'type3');
+                        k++;
+                      }
+                      else if((start1<start2)&&(end2<end1))
+                      {
+                        m = m+((end2-start2)/(end1-start1));
+                        console.log(i+'->'+j+'========='+end2,start2,end1,start1+'type4');
+                        k++;
+                      }
                     }
                   }
+                  if(k==0)
+                  {
+                    temp[i]=0;
+                  }
+                  else
+                  {
+                    temp[i]=m/k;
+                  }
+                  n+=temp[i];
+                  console.log(i+'+++++++'+temp[i]);
                 }
-                if(k==0)
+                if(getnode.length)
                 {
-                  temp[i]=0;
+                  mykvalue[myclass] = n/getnode.length;
+                  ct++;
                 }
                 else
                 {
-                  temp[i]=m/k;
+                  mykvalue[myclass] = 0;
                 }
-                n+=temp[i];
-                console.log(i+'+++++++'+temp[i]);
+                console.log('mykvalue=', mykvalue[myclass]);
+                finaln += mykvalue[myclass];
               }
-              n = n/getnode.length;
+              finaln = finaln/ct;
+              console.log('finaln=', finaln);
             }
-
-            console.log(n);
-            this.$options.methods.storeK(n,this);
+            
+            this.$options.methods.storeK(finaln,this);
         }).then((error) => {
             console.log(error);
         })
