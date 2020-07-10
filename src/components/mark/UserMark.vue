@@ -6,7 +6,7 @@
     <el-header>
       <div class="sel">
         选择事件类型：
-        <select id="select_1" autocomplete="off" @change="this.mySelection">
+        <select id="select_1" autocomplete="off" @change="mySelection">
           <option value="hjht" selected="selected">会见会谈</option>
           <option value="qswj">签署文件</option>
           <option value="ssqy">设施启用</option>
@@ -107,7 +107,37 @@ export default {
     }
   },
   methods:{
-
+    mySelection(){
+      var myselect = document.getElementById("select_1");
+      var index=myselect.selectedIndex;
+      var myevent = myselect.options[index].value;
+      console.log(myevent);
+      if(myevent=='hjht'){
+        // console.log(1)
+        document.getElementById("hjht").style.display="inline";
+        document.getElementById("qswj").style.display="none";
+        document.getElementById("ssqy").style.display="none";
+        document.getElementById("jxhd").style.display="none";
+      }
+      if(myevent=='qswj'){
+        document.getElementById("hjht").style.display="none";
+        document.getElementById("qswj").style.display="inline";
+        document.getElementById("ssqy").style.display="none";
+        document.getElementById("jxhd").style.display="none";
+      }
+      if(myevent=='ssqy'){
+        document.getElementById("hjht").style.display="none";
+        document.getElementById("qswj").style.display="none";
+        document.getElementById("ssqy").style.display="inline";
+        document.getElementById("jxhd").style.display="none";
+      }
+      if(myevent=='jxhd'){
+        document.getElementById("hjht").style.display="none";
+        document.getElementById("qswj").style.display="none";
+        document.getElementById("ssqy").style.display="none";
+        document.getElementById("jxhd").style.display="inline";
+      }
+    },
     //  保存用户当前的编辑，以及计算编辑之后文件的一致性
     save(){
       const self = this;                      

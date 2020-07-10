@@ -2,16 +2,16 @@
   <div id="leaderbody">
     <div class="headblock"><h1>{{filename}}</h1></div>
     <div class="marktool">
-      <div class="sel">
+      <div style="display:inline-block">
         选择事件类型：
-        <select id="select_1" autocomplete="off" @change="mySelection">
+        <select id="select" autocomplete="off" @change="getSelection">
           <option value="hjht" selected="selected">会见会谈</option>
           <option value="qswj">签署文件</option>
           <option value="ssqy">设施启用</option>
           <option value="jxhd">举行活动</option>
         </select>
       </div>
-      <div id="hjht" style="display:inline">
+      <div id="hjht" style="display:inline-block">
         <el-row>
           <el-button id="trigger1" @click="trigger1" round>触发词</el-button>
           <el-button type="primary" id="people" @click="people" round>参与方</el-button>
@@ -19,7 +19,39 @@
           <el-button type="primary" id="place" @click="place" round>地点</el-button>
         </el-row>
       </div>
-    </div>
+       <!-- 签署文件按钮组 -->
+        <div id="qswj" style="display:none">
+          <el-row>
+            <el-button id="trigger2" @click="trigger2" round>触发词</el-button>
+            <el-button type="primary" id="sign_people" @click="sign_people" round>签署方</el-button>
+            <el-button type="primary" id="sign_paper" @click="sign_paper" round>文件</el-button>
+            <el-button type="primary" id="sign_time" @click="sign_time" round>签署时间</el-button>
+            <el-button type="primary" id="sign_place" @click="sign_place" round>签署地点</el-button>
+          </el-row>
+        </div>
+
+        <!-- 设施启用按钮组 -->
+        <div id="ssqy" style="display:none">
+          <el-row>
+            <el-button id="trigger3" @click="trigger3" round>触发词</el-button>
+            <el-button type="primary" id="build_people" @click="build_people" round>设施修建方</el-button>
+            <el-button type="primary" id="build_name" @click="build_name" round>设施名称</el-button>
+            <el-button type="primary" id="build_time" @click="build_time" round>启用时间</el-button>
+            <el-button type="primary" id="build_place" @click="build_place" round>设施地点</el-button>
+          </el-row>
+        </div>   
+
+        <!-- 举行活动按钮组-->
+        <div id="jxhd" style="display:none">
+          <el-row>
+            <el-button id="trigger4" @click="trigger4" round>触发词</el-button>
+            <el-button type="primary" id="activity_people" @click="activity_people" round>举办方</el-button>
+            <el-button type="primary" id="activity_name" @click="activity_name" round>活动名称</el-button>
+            <el-button type="primary" id="activity_time" @click="activity_time" round>活动时间</el-button>
+            <el-button type="primary" id="activity_place" @click="activity_place" round>活动地点</el-button>
+          </el-row>
+        </div>
+      </div>
     <el-container>
       <el-header>
         <!-- 左边的选择下拉框 -->
@@ -165,6 +197,37 @@ export default {
           }).then((error) => {
               console.log(error);
           })
+        },
+        getSelection(){
+          var myselect = document.getElementById("select");
+          var index=myselect.selectedIndex;
+          var myevent = myselect.options[index].value;
+          console.log(myevent);
+          if(myevent=='hjht'){
+            // console.log(1)
+            document.getElementById("hjht").style.display="inline-block";
+            document.getElementById("qswj").style.display="none";
+            document.getElementById("ssqy").style.display="none";
+            document.getElementById("jxhd").style.display="none";
+          }
+          if(myevent=='qswj'){
+            document.getElementById("hjht").style.display="none";
+            document.getElementById("qswj").style.display="inline-block";
+            document.getElementById("ssqy").style.display="none";
+            document.getElementById("jxhd").style.display="none";
+          }
+          if(myevent=='ssqy'){
+            document.getElementById("hjht").style.display="none";
+            document.getElementById("qswj").style.display="none";
+            document.getElementById("ssqy").style.display="inline-block";
+            document.getElementById("jxhd").style.display="none";
+          }
+          if(myevent=='jxhd'){
+            document.getElementById("hjht").style.display="none";
+            document.getElementById("qswj").style.display="none";
+            document.getElementById("ssqy").style.display="none";
+            document.getElementById("jxhd").style.display="inline-block";
+          }
         }
     }
 }
