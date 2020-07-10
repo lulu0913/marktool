@@ -137,22 +137,25 @@ export default {
             console.log(error);
         })
 
-      var getnode = document.getElementsByClassName("people");
+      var allclass = ['trigger1', 'trigger2', 'trigger3', 'trigger4', 'people', 'time', 'place', 'sign_people', 'sign_paper', 'sign_time', 'sign_place', 'build_people', 'build_name', 'build_time', 'build_place', 'activity_people', 'activity_name', 'activity_time', 'activity_place'];
       var xmldom = document.implementation.createDocument("", "root", null); // 创建xml对象
-      // console.log(xmldom.documentElement.tagName); //"root"
-      for(var i=0;i<getnode.length;i++)
-      {
-        var child = xmldom.createElement("event_argument");
-        var nodetxt = document.createTextNode(getnode[i].innerHTML);
-        var start = getnode[i].getAttribute("start");
-        var end = getnode[i].getAttribute("end");
-        xmldom.documentElement.appendChild(child);
-        child.appendChild(nodetxt);
-        child.setAttribute("START", start);
-        child.setAttribute("END", end);
-        child.setAttribute("ROLE", "参与方");
+      for (var j=0; j<allclass.length; j++)
+      {           
+        var getnode = document.getElementsByClassName(allclass[j]);
+        // console.log(xmldom.documentElement.tagName); //"root"
+        for(var i=0;i<getnode.length;i++)
+        {
+          var child = xmldom.createElement("event_argument");
+          var nodetxt = document.createTextNode(getnode[i].innerHTML);
+          var start = getnode[i].getAttribute("start");
+          var end = getnode[i].getAttribute("end");
+          xmldom.documentElement.appendChild(child);
+          child.appendChild(nodetxt);
+          child.setAttribute("START", start);
+          child.setAttribute("END", end);
+          child.setAttribute("ROLE", allclass[j]);
+        }
       }
-
       var serializer = new XMLSerializer();
       var xml = serializer.serializeToString(xmldom);// 将xml解析为dom
       console.log(xml);
