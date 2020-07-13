@@ -31,7 +31,7 @@
 
         <el-table-column prop="todo" label="状态" >
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">已编辑</el-button>
+            <el-button @click="handleClick(scope.row)" type="text" size="small">可编辑</el-button>
           </template>
         </el-table-column>
 
@@ -134,7 +134,7 @@ export default {
         localStorage.setItem('filetxt',response.data);
         this.filetxt = response.data;
 
-        console.log(xmldom); 
+        // console.log(xmldom); 
         }).then((error) => {
             console.log(error);
         })
@@ -147,6 +147,7 @@ export default {
         // console.log(xmldom.documentElement.tagName); //"root"
         for(var i=0;i<getnode.length;i++)
         {
+          
           var child = xmldom.createElement("event_argument");
           var nodetxt = document.createTextNode(getnode[i].innerHTML);
           var start = getnode[i].getAttribute("start");
@@ -158,20 +159,35 @@ export default {
           child.setAttribute("ROLE", allclass[j]);
         }
       }
-      var serializer = new XMLSerializer();
-      var xml = serializer.serializeToString(xmldom);// 将xml解析为dom
-      console.log(xml);
+      console.log(xmldom);
+      // var serializer = new XMLSerializer();
+      // var xml = serializer.serializeToString(xmldom);// 将xml解析为dom
 
-      let a = document.createElement('a');
-      let blob = new Blob([xml]); 
-      let objectUrl = URL.createObjectURL(blob);
-      filename = filename.substr(0, filename.length - 3);
-      filename += 'xml';
-      a.setAttribute("href",objectUrl);
-      a.setAttribute("download", filename);
-      a.click();
-
+      // let a = document.createElement('a');
+      // let blob = new Blob([xml]); 
+      // let objectUrl = URL.createObjectURL(blob);
+      // filename = filename.substr(0, filename.length - 3);
+      // filename += 'xml';
+      // a.setAttribute("href",objectUrl);
+      // a.setAttribute("download", filename);
+      // a.click();
+      var urlObject = window.URL || window.webkitURL || window;
+ 
+      var export_blob = new Blob([xmldom]);
+   
+      var save_link = document.createElementNS("http://localhost:8081/#/U", "a")
+      save_link.href = urlObject.createObjectURL(export_blob);
+      save_link.download = filename;
+  //     this.$options.methods.fake_click(this, save_link);
     },
+  //   fake_click(that, obj) {
+  //     var ev = document.createEvent("MouseEvents");
+  //     ev.initMouseEvent(
+  //         "click", true, false, window, 0, 0, 0, 0, 0
+  //         , false, false, false, false, 0, null
+  //         );
+  //     obj.dispatchEvent(ev);
+  //   },
     panduan(){
       var myname = localStorage.getItem('ms_username');
       // console.log('怎样才有东西显示')

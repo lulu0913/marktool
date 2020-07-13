@@ -8,6 +8,8 @@
         <br>
         <input class="form-control" type="text" placeholder="请设置密码" name="password" v-model="password">
         <br>
+        <input class="form-control" type="text" placeholder="请选择组长" name="leader">
+        <br>
         <el-row><el-button @click="addUser" value="注册" class="submitbutton_registered" type="warning">注册</el-button></el-row>
         <el-row><el-button @click="goUser" class="submitbutton_registered" type="warning">已有账号，前往登录</el-button></el-row>
         </div>

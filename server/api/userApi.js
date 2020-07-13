@@ -25,7 +25,7 @@ var jsonWrite = function(res, ret) {
 
 // 增加用户接口
 router.post('/addUser', (req, res) => {
-  let sql = $sql.user.add;
+  let sql = $sql.user.add1;
   let params = req.body;
 //   console.log(params);
   var n=1;
@@ -46,7 +46,7 @@ router.post('/addUser', (req, res) => {
     },
     function(n, callback){
         if(n){
-            conn.query(sql, [params.username, params.password], function(err, result) {
+            conn.query(sql, [params.username, params.password, '皮卡丘'], function(err, result) {
                 if (err) {
                   console.log("添加失败"+err);
                 }
